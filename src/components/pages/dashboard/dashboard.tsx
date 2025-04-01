@@ -4,7 +4,7 @@ import FunctionsPanel from "@/components/panels/FunctionsPanel/page";
 
 const Dashboard = () => {
     return (
-        <div>
+        <div className= "flex flex-col h-screen w-screen">
             <FolderPanel />
             <Editor />
             <FunctionsPanel />

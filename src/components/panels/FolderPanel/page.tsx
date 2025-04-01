@@ -106,7 +106,7 @@ export default function FolderPanel() {
     })).filter((folder) => folder.snippets.length > 0 || folder.foldername.toLowerCase().includes(searchQuery.toLowerCase()));
 
     return (
-        <div className="fixed top-0 left-0 h-screen flex">
+        <div className="fixed top-0 left-0 h-screen flex w-1/3">
             {/* Collapsed State */}
             {isCollapsed && (
                 <button

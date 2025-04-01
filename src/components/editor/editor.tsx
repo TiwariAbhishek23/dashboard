@@ -115,11 +115,7 @@ const Editor = () => {
   )
   return (
     <div
-      className="p-[24px] flex flex-col w-full max-w-screen-lg gap-[24px] mx-[auto] my-0"
-      style={{
-        maxWidth: 1024,
-        margin: '40px auto',
-      }}
+      className="flex flex-col w-2/3 max-w-screen-lg gap-[24px] my-0"
     >
       <EditorFrame
         output="html"
