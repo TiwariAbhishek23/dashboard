@@ -12,7 +12,7 @@ export interface ToolbarComponentProps {
   toolbar?: ToolbarProps
 }
 
-function Toolbar({ editor, disabled, toolbar }: ToolbarComponentProps) {
+const Toolbar = ({ editor, disabled, toolbar }: ToolbarComponentProps) => {
   const { t, lang } = useLocale();
 
   const toolbarItems = useMemo(() => {
@@ -68,13 +68,13 @@ function Toolbar({ editor, disabled, toolbar }: ToolbarComponentProps) {
   const containerDom = (innerContent: React.ReactNode) => {
     return (
       <div
-        className="px-1 py-2 !border-b"
+      className="flex items-center select-none sticky top-0 left-0 z-50 scrollbar-hide w-full justify-between overflow-x-auto rounded-t-lg border-b border-b-border bg-background/95 backdrop-blur-sm supports-backdrop-blur:bg-background/60 [&::-webkit-scrollbar]:hidden"
         style={{
           pointerEvents: disabled ? 'none' : 'auto',
           opacity: disabled ? 0.5 : 1,
         }}
       >
-        <div className="relative flex flex-wrap h-auto gap-y-1 gap-x-1">
+        <div className="relative flex h-auto gap-y-1 gap-x-1">
           {innerContent}
         </div>
       </div>

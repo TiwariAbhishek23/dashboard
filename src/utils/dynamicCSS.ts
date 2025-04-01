@@ -9,7 +9,7 @@ export type ContainerType = Element | ShadowRoot;
 export type Prepend = boolean | 'queue';
 export type AppendType = 'prependQueue' | 'append' | 'prepend';
 
-export default function contains(root: Node | null | undefined, n?: Node) {
+const contains = (root: Node | null | undefined, n?: Node) => {
   if (!root) {
     return false;
   }
@@ -44,14 +44,14 @@ interface Options {
   mark?: string
 }
 
-function getMark({ mark }: Options = {}) {
+const getMark = ({ mark }: Options = {}) => {
   if (mark) {
     return mark.startsWith('data-') ? mark : `data-${mark}`;
   }
   return MARK_KEY;
 }
 
-function getContainer(option: Options) {
+const getContainer = (option: Options) => {
   if (option.attachTo) {
     return option.attachTo;
   }
@@ -60,7 +60,7 @@ function getContainer(option: Options) {
   return head || document.body;
 }
 
-function getOrder(prepend?: Prepend): AppendType {
+const getOrder = (prepend?: Prepend): AppendType => {
   if (prepend === 'queue') {
     return 'prependQueue';
   }
@@ -71,13 +71,13 @@ function getOrder(prepend?: Prepend): AppendType {
 /**
  * Find style which inject by rc-util
  */
-function findStyles(container: ContainerType) {
+const findStyles = (container: ContainerType) => {
   return [...(containerCache.get(container) || container).children].filter(
     node => node.tagName === 'STYLE',
   ) as HTMLStyleElement[];
 }
 
-export function injectCSS(css: string, option: Options = {}) {
+export const injectCSS = (css: string, option: Options = {}) => {
   const { csp, prepend, priority = 0 } = option;
   const mergedOrder = getOrder(prepend);
   const isPrependQueue = mergedOrder === 'prependQueue';
@@ -129,13 +129,13 @@ export function injectCSS(css: string, option: Options = {}) {
   return styleNode;
 }
 
-function findExistNode(key: string, option: Options = {}) {
+const findExistNode = (key: string, option: Options = {}) => {
   const container = getContainer(option);
 
   return findStyles(container).find(node => node.getAttribute(getMark(option)) === key);
 }
 
-export function removeCSS(key: string, option: Options = {}) {
+export const removeCSS = (key: string, option: Options = {}) => {
   const existNode = findExistNode(key, option);
   if (existNode) {
     // const container = getContainer(option);
@@ -146,7 +146,7 @@ export function removeCSS(key: string, option: Options = {}) {
 /**
  * qiankun will inject `appendChild` to insert into other
  */
-function syncRealContainer(container: ContainerType, option: Options) {
+const syncRealContainer = (container: ContainerType, option: Options) => {
   const cachedRealContainer = containerCache.get(container);
 
   // Find real container when not cached or cached container removed
@@ -162,11 +162,11 @@ function syncRealContainer(container: ContainerType, option: Options) {
 /**
  * manually clear container cache to avoid global cache in unit testes
  */
-export function clearContainerCache() {
+export const clearContainerCache = () => {
   containerCache.clear();
 }
 
-export function updateCSS(css: string, key: string, option: Options = {}) {
+export const updateCSS = (css: string, key: string, option: Options = {}) => {
   const container = getContainer(option);
 
   // Sync real parent
@@ -190,3 +190,5 @@ export function updateCSS(css: string, key: string, option: Options = {}) {
   newNode.setAttribute(getMark(option), key);
   return newNode;
 }
+
+export default contains;

@@ -1,11 +1,10 @@
-'use client';
-
 import React from 'react';
 
 import type { TooltipContentProps } from '@radix-ui/react-tooltip';
 
 import { Toggle, Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui';
 import type { ButtonViewReturnComponentProps } from '@/types/types';
+import { icons } from '@/assets/icons';
 import { getShortcutKeys } from '@/utils/plateform';
 
 interface IPropsHistoryActionButton {
@@ -39,14 +38,12 @@ function HistoryActionButton(props?: Partial<IPropsHistoryActionButton>) {
     children,
   } = props as any;
 
-  const Icon = icon[icon as string];
+  const Icon = icons[icon as string];
 
   return (
-    <Tooltip>
-      <TooltipTrigger asChild>
         <Toggle
           size="sm"
-          className={`w-[32px] h-[32px] ${customClass}`}
+          className={`w-[25px] h-[25px] ${customClass}`}
           disabled={isActive?.()}
           onClick={action}
           // data-state={isActive?.() ? 'on' : 'off'}
@@ -56,20 +53,6 @@ function HistoryActionButton(props?: Partial<IPropsHistoryActionButton>) {
             {children}
           </>}
         </Toggle>
-      </TooltipTrigger>
-      {tooltip && (
-        <TooltipContent {...tooltipOptions}>
-          <div className="flex flex-col items-center text-center max-w-24">
-            <div>
-              {tooltip}
-            </div>
-            {!!props?.shortcutKeys?.length && <span>
-              {getShortcutKeys(props?.shortcutKeys)}
-            </span>}
-          </div>
-        </TooltipContent>
-      )}
-    </Tooltip>
   );
 }
 

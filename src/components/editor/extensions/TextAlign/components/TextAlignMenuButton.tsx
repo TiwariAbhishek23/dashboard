@@ -29,7 +29,7 @@ interface IPropsTextAlignMenuButton {
   items?: Item[]
 }
 
-function TextAlignMenuButton(props: IPropsTextAlignMenuButton) {
+const TextAlignMenuButton = (props: IPropsTextAlignMenuButton) => {
   const active = useMemo(() => {
     const find: any = props?.items?.find((k: any) => k.isActive());
     if (find && !find.default) {
@@ -53,7 +53,6 @@ function TextAlignMenuButton(props: IPropsTextAlignMenuButton) {
         disabled={props?.disabled}
       >
         <ActionButton
-          customClass="!w-12 h-12"
           disabled={props?.disabled}
           icon={props?.icon}
           tooltip={props?.tooltip}
@@ -71,8 +70,6 @@ function TextAlignMenuButton(props: IPropsTextAlignMenuButton) {
       >
         {props?.items?.map((item, index) => {
           return (
-            <Tooltip key={`text-align-${index}`}>
-              <TooltipTrigger asChild>
                 <Toggle
                   className="size-7 p-1"
                   data-state={active.title === item.title ? 'on' : 'off'}
@@ -82,20 +79,6 @@ function TextAlignMenuButton(props: IPropsTextAlignMenuButton) {
                 >
                   {item?.icon && <IconComponent name={item.icon} />}
                 </Toggle>
-              </TooltipTrigger>
-
-              <TooltipContent className="flex flex-col items-center">
-                <span>
-                  {item.title}
-                </span>
-
-                {!!item.shortcutKeys?.length && (
-                  <span>
-                    {item.shortcutKeys?.map(item => getShortcutKey(item)).join(' ')}
-                  </span>
-                )}
-              </TooltipContent>
-            </Tooltip>
           );
         })}
       </PopoverContent>

@@ -12,7 +12,7 @@ export const enum IndentProps {
   less = -1,
 }
 
-export function clamp(val: number, min: number, max: number): number {
+export const clamp = (val: number, min: number, max: number): number => {
   if (val < min) {
     return min;
   }
@@ -21,12 +21,12 @@ export function clamp(val: number, min: number, max: number): number {
   }
   return val;
 }
-function updateIndentLevel(
+const updateIndentLevel = (
   tr: Transaction,
   delta: number,
   types: string[],
   editor: Editor,
-): Transaction {
+): Transaction => {
   const { doc, selection } = tr;
 
   if (!doc || !selection) {
@@ -54,7 +54,7 @@ function updateIndentLevel(
   return tr;
 }
 
-export function setNodeIndentMarkup(tr: Transaction, pos: number, delta: number): Transaction {
+export const setNodeIndentMarkup = (tr: Transaction, pos: number, delta: number): Transaction => {
   if (!tr.doc) {
     return tr;
   }
@@ -81,7 +81,7 @@ export function setNodeIndentMarkup(tr: Transaction, pos: number, delta: number)
   return tr.setNodeMarkup(pos, node.type, nodeAttrs, node.marks);
 }
 
-export function createIndentCommand({ delta, types }: { delta: number, types: string[] }): Command {
+export const createIndentCommand = ({ delta, types }: { delta: number, types: string[] }): Command => {
   return ({ state, dispatch, editor }) => {
     const { selection } = state;
     let { tr } = state;

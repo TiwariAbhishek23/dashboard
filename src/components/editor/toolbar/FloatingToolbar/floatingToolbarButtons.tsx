@@ -27,7 +27,7 @@ import { MarkToolbarButton } from './mark-toolbar-button';
 import { ToolbarGroup } from './toolbar';
 import { TurnIntoDropdownMenu } from './turn-into-dropdown-menu';
 
-export function FloatingToolbarButtons() {
+export const FloatingToolbarButtons = () => {
   const readOnly = useEditorReadOnly();
 
   return (

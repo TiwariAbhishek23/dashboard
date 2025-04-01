@@ -18,7 +18,6 @@ export const Bold = TiptapBold.extend<BoldOptions>({
           disabled: !editor.can().toggleBold(),
           icon: 'Bold',
           shortcutKeys: ['mod', 'B'],
-          tooltip: t('editor.bold.tooltip'),
         },
       }),
     };

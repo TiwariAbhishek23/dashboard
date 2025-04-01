@@ -5,7 +5,7 @@ import React from 'react';
 import { ToolbarGroup } from '@/components/ui/Toolbar';
 
 
-export function FixedToolbarButtons() {
+export const FixedToolbarButtons = () => {
   const readOnly = false;
 
   return (

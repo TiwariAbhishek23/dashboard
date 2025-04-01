@@ -5,7 +5,7 @@ import { safeJSONParse } from '@/utils/json';
 /**
  * @param json
  */
-export function jsonToStr(json: Record<string, unknown>) {
+export const jsonToStr = (json: Record<string, unknown>) => {
   try {
     return JSON.stringify(json);
   } catch {
@@ -16,7 +16,7 @@ export function jsonToStr(json: Record<string, unknown>) {
 /**
  * @param str
  */
-export function strToJSON(str: string) {
+export const strToJSON = (str: string) => {
   return safeJSONParse(str);
 }
 
@@ -24,7 +24,7 @@ export function strToJSON(str: string) {
  * @param element
  * @param json
  */
-export function jsonToDOMDataset(json: Record<string, unknown>) {
+export const jsonToDOMDataset = (json: Record<string, unknown>) => {
   return Object.keys(json).map((key) => {
     let value = json[key];
 
@@ -44,7 +44,7 @@ export function jsonToDOMDataset(json: Record<string, unknown>) {
  * @param attribute
  * @param transformToJSON
  */
-export function getDatasetAttribute(attribute: string, transformToJSON = false) {
+export const getDatasetAttribute = (attribute: string, transformToJSON = false) => {
   return (element: HTMLElement) => {
     const dataKey = attribute.startsWith('data-') ? attribute : `data-${attribute}`;
     // @ts-ignore
@@ -96,7 +96,7 @@ export function getDatasetAttribute(attribute: string, transformToJSON = false) 
  * @param node
  * @returns
  */
-export function nodeAttrsToDataset(node: Node) {
+export const nodeAttrsToDataset = (node: Node) => {
   const { attrs } = node as any;
 
   return Object.keys(attrs).reduce((accu, key) => {

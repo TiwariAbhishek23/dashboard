@@ -16,7 +16,6 @@ interface ColorActionButtonProps {
   colors?: string[]
   defaultColor?: string
   icon?: React.ReactNode
-  tooltip?: string
   disabled?: boolean
   action?: ButtonViewReturnComponentProps['action']
   isActive?: ButtonViewReturnComponentProps['isActive']
@@ -26,7 +25,7 @@ interface IconCProps {
   fill?: string
 }
 
-function IconC({ fill }: IconCProps) {
+const IconC = ({ fill }: IconCProps) => {
   return (
     <svg
       width="18px"
@@ -63,15 +62,11 @@ function IconC({ fill }: IconCProps) {
   );
 }
 
-function ColorActionButton(props: ColorActionButtonProps) {
+const ColorActionButton = (props: ColorActionButtonProps) => {
   const [selectedColor, setSelectedColor] = useState<string | undefined>(undefined);
 
-  function onChange(color: string | undefined) {
+  const onChange = (color: string | undefined) => {
     props.action?.(color);
-  }
-
-  function toggleColor() {
-    props.action?.(selectedColor);
   }
 
   const setSelectedColorDebounce = useCallback(
@@ -83,12 +78,6 @@ function ColorActionButton(props: ColorActionButtonProps) {
 
   return (
     <div className="flex items-center h-[32px]">
-      <ActionButton tooltip={props?.tooltip} disabled={props?.disabled} action={toggleColor}>
-        <span className="flex items-center justify-center text-sm">
-          <IconC fill={selectedColor} />
-        </span>
-      </ActionButton>
-
       <ColorPicker
         selectedColor={selectedColor}
         setSelectedColor={setSelectedColorDebounce}
@@ -97,8 +86,8 @@ function ColorActionButton(props: ColorActionButtonProps) {
         colors={props?.colors}
         defaultColor={props?.defaultColor}
       >
-        <Button variant="ghost" size="icon" className="r!ichtext-h-[32px] !w-3" disabled={props?.disabled}>
-          <IconComponent className="!w-3 !h-3 text-zinc-500" name="MenuDown" />
+        <Button variant="ghost" size="icon" className="h-[25px] w-[25px]" disabled={props?.disabled}>
+        <IconC fill={selectedColor} />
         </Button>
       </ColorPicker>
     </div>

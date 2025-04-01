@@ -43,7 +43,6 @@ export const Color = TiptapColor.extend<ColorOptions>({
             },
             editor,
             disabled: !editor.can().setColor(''),
-            tooltip: t('editor.color.tooltip'),
           },
         };
       },

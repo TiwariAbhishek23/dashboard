@@ -5,7 +5,6 @@ export * from './DeleteRow';
 export * from './FileWordOutline';
 export * from './Icon';
 export * from './LineHeight';
-export * from './MenuDown';
 export * from './SizeL';
 export * from './SizeM';
 export * from './SizeS';

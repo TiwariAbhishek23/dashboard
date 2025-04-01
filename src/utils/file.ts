@@ -10,7 +10,7 @@
  * @param {string} src The URL to extract filename from
  * @returns {string}
  */
-export function extractFilename(src: any) {
+export const extractFilename = (src: any) =>{
   return src.replace(/^.*\/|\..+$/g, '');
 }
 
@@ -19,11 +19,11 @@ export function extractFilename(src: any) {
  * @param {string} fileName The file name to extract extension from
  * @returns  {string}
  */
-export function extractFileExtension(fileName: any) {
+export const extractFileExtension = (fileName: any) => {
   return fileName.split('.').pop();
 }
 
-export function normalizeFileSize(size: any) {
+export const normalizeFileSize = (size: any) => {
   if (size < 1024) {
     return `${size} Byte`;
   }
@@ -35,7 +35,7 @@ export function normalizeFileSize(size: any) {
 
 export type FileType = 'image' | 'audio' | 'video' | 'pdf' | 'word' | 'excel' | 'ppt' | 'file';
 
-export function normalizeFileType(fileType: any): FileType {
+export const normalizeFileType = (fileType: any): FileType => {
   if (!fileType)
     return 'file';
 
@@ -66,7 +66,7 @@ export function normalizeFileType(fileType: any): FileType {
   return 'file';
 }
 
-export function readImageAsBase64(file: File): Promise<{ alt: string, src: string }> {
+export const readImageAsBase64 = (file: File): Promise<{ alt: string, src: string }> => {
   return new Promise((resolve) => {
     const reader = new FileReader();
     reader.addEventListener(
@@ -83,7 +83,7 @@ export function readImageAsBase64(file: File): Promise<{ alt: string, src: strin
   });
 }
 
-export function getImageWidthHeight(url: string): Promise<{ width: number | string, height: number | string }> {
+export const getImageWidthHeight = (url: string): Promise<{ width: number | string, height: number | string }> => {
   return new Promise((resolve) => {
     const img = document.createElement('img');
     img.addEventListener('load', () => {
@@ -98,7 +98,7 @@ export function getImageWidthHeight(url: string): Promise<{ width: number | stri
 
 export const FILE_CHUNK_SIZE = 2 * 1024 * 1024;
 
-export function dataURLtoFile(dataurl: string, filename: string) {
+export const dataURLtoFile = (dataurl: string, filename: string) => {
   const arr = dataurl.split(',');
   // @ts-expect-error
   const mime = arr[0].match(/:(.*?);/)[1];

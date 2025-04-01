@@ -1,6 +1,6 @@
 import type { Editor } from '@tiptap/core';
 
-function printHtml(content: string) {
+const printHtml = (content: string) => {
   const iframe: HTMLIFrameElement = document.createElement('iframe');
   iframe.setAttribute('style', 'position: absolute; width: 0; height: 0; top: 0; left: 0;');
   document.body.appendChild(iframe);
@@ -37,7 +37,7 @@ function printHtml(content: string) {
   }
 
   if (frameWindow) {
-    iframe.addEventListener('load', function () {
+    iframe.addEventListener('load',  () => {
       try {
         setTimeout(() => {
           frameWindow.focus();
@@ -61,7 +61,7 @@ function printHtml(content: string) {
   }
 }
 
-export function printEditorContent(editor: Editor) {
+export const printEditorContent = (editor: Editor) => {
   const content = editor.getHTML();
 
   if (content) {

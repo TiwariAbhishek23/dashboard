@@ -5,7 +5,7 @@ import type { HeadingOptions } from '@/components/editor/extensions';
 import { localeActions } from '@/locales';
 import { actionDialogImage } from '@/components/editor/extensions/Image/store';
 
-export function renderGroups(extensions: Extensions) {
+export const renderGroups = (extensions: Extensions) => {
   const groups: Group[] = [
     {
       name: 'format',

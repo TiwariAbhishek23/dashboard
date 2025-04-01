@@ -12,7 +12,7 @@ interface IPropsLinkViewBlock {
   onEdit?: any
 }
 
-function LinkViewBlock(props: IPropsLinkViewBlock) {
+const LinkViewBlock = (props: IPropsLinkViewBlock) => {
   const { t } = useLocale();
 
   return (

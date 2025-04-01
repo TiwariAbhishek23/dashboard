@@ -16,7 +16,6 @@ export const Clear = Node.create<ClearOptions>({
           action: () => editor.chain().focus().clearNodes().unsetAllMarks().run(),
           disabled: !editor.can().chain().focus().clearNodes().unsetAllMarks().run(),
           icon: 'Eraser',
-          tooltip: t('editor.clear.tooltip'),
         },
       }),
     };

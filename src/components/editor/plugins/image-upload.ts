@@ -10,7 +10,7 @@ interface UploadAction {
   remove?: string[]
 }
 
-export function UploadImagesPlugin() {
+export const UploadImagesPlugin = () => {
   return new Plugin({
     key: uploadKey,
     state: {
@@ -44,7 +44,7 @@ export function UploadImagesPlugin() {
   });
 }
 
-function createPlaceholder(src: string): HTMLElement {
+const createPlaceholder = (src: string): HTMLElement => {
   const placeholder = document.createElement('div');
   const image = document.createElement('img');
   image.setAttribute('class', 'opacity-50');
@@ -56,7 +56,7 @@ function createPlaceholder(src: string): HTMLElement {
   return placeholder;
 }
 
-function findPlaceholder(state: EditorState, id: string): number | null {
+const findPlaceholder = (state: EditorState, id: string): number | null => {
   const decos = uploadKey.getState(state) as DecorationSet;
   const found = decos.find(undefined, undefined, spec => spec.id === id);
   return found.length > 0 ? found[0]?.from : null;
@@ -70,7 +70,7 @@ export interface ImageUploadOptions {
 
 export type UploadFn = (files: File[], view: EditorView, pos: number) => void;
 
-export function createImageUpload({ validateFn, onUpload, postUpload }: ImageUploadOptions): UploadFn {
+export const createImageUpload = ({ validateFn, onUpload, postUpload }: ImageUploadOptions): UploadFn => {
   return (files, view, pos) => {
     for (const file of files) {
       if (validateFn && !validateFn(file)) {
@@ -128,7 +128,7 @@ export function createImageUpload({ validateFn, onUpload, postUpload }: ImageUpl
   };
 }
 
-export function handleImagePaste(view: EditorView, event: ClipboardEvent, uploadFn: UploadFn): boolean {
+export const handleImagePaste = (view: EditorView, event: ClipboardEvent, uploadFn: UploadFn): boolean => {
   const files = [...(event.clipboardData?.files || [])];
   if (files.length > 0) {
     event.preventDefault();
@@ -139,7 +139,7 @@ export function handleImagePaste(view: EditorView, event: ClipboardEvent, upload
   return false;
 }
 
-export function handleImageDrop(view: EditorView, event: DragEvent, moved: boolean, uploadFn: UploadFn): boolean {
+export const handleImageDrop = (view: EditorView, event: DragEvent, moved: boolean, uploadFn: UploadFn): boolean => {
   const files = [...(event.dataTransfer?.files || [])];
   if (!moved && files.length > 0) {
     event.preventDefault();

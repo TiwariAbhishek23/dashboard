@@ -20,17 +20,17 @@ interface IPropsLineHeightDropdown {
   isActive?: ButtonViewReturnComponentProps['isActive']
 }
 
-function percentageToDecimal(percentageString: any) {
+const percentageToDecimal = (percentageString: any) => {
   const percentage = Number.parseFloat(percentageString.replace('%', ''));
   const decimal = percentage / 100;
   return decimal;
 }
 
-function LineHeightDropdown(props: IPropsLineHeightDropdown) {
+const LineHeightDropdown = (props: IPropsLineHeightDropdown) => {
   const { t } = useLocale();
   const [value, setValue] = useState('default');
 
-  function toggleLightheight(key: string) {
+  const toggleLightheight = (key: string) => {
     if (key === 'default') {
       props.editor.commands.unsetLineHeight();
     } else {
@@ -62,7 +62,6 @@ function LineHeightDropdown(props: IPropsLineHeightDropdown) {
         disabled={props?.disabled}
       >
         <ActionButton
-          customClass="!w-12 h-12"
           disabled={props?.disabled}
           icon="LineHeight"
           tooltip={props?.tooltip}

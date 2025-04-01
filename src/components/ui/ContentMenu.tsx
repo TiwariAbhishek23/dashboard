@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
+
 import type { Editor } from '@tiptap/core';
-
-import type { NodeSelection } from '@tiptap/pm/state';
-import { DragHandlePlugin, dragHandlePluginDefaultKey } from 'echo-drag-handle-plugin';
-
 import type { Node } from '@tiptap/pm/model';
+import type { NodeSelection } from '@tiptap/pm/state';
+
 import {
   Button,
   DropdownMenu,
@@ -22,7 +21,9 @@ import {
 } from '@/components/ui';
 
 import { IconComponent } from '@/assets/icons';
+
 import { useLocale } from '@/locales';
+import { DragHandlePlugin, dragHandlePluginDefaultKey } from '@/components/editor/plugins/DragHandle';
 import { IndentProps, setNodeIndentMarkup } from '@/utils/indent';
 
 export interface ContentMenuProps {
@@ -183,34 +184,42 @@ function ContentMenu(props: ContentMenuProps) {
 
   return (
     <div
+      ref={dragElement}
       className={
-        `drag-handle [transition-property:top,_left] richtext-ease-in-out richtext-duration-200 ${props?.className}`
+        `drag-handle duration-200 ease-in-out [transition-property:top,_left] ${props?.className}`
       }
       style={{
         opacity: props?.disabled ? 0 : 1,
       }}
-      ref={dragElement}
     >
-      <div className="richtext-flex richtext-items-center richtext-gap-0.5 [transition-property:top,_left] richtext-ease-in-out richtext-duration-200">
+      <div className="flex items-center gap-0.5 duration-200 ease-in-out [transition-property:top,_left]">
         <Button
-          variant="ghost"
-          size="icon"
-          className="richtext-w-7 richtext-h-7 richtext-cursor-grab"
+          className="size-7 cursor-grab"
           disabled={props?.disabled}
           onClick={handleAdd}
+          size="icon"
           type="button"
+          variant="ghost"
         >
-          <IconComponent name="Plus" className="richtext-text-lg richtext-text-neutral-600 dark:richtext-text-neutral-200" />
+          <IconComponent className="text-lg text-neutral-600 dark:text-neutral-200"
+            name="Plus"
+          />
         </Button>
-        <DropdownMenu open={menuOpen} onOpenChange={handleMenuOpenChange}>
-          <div className="richtext-relative richtext-flex richtext-flex-col">
-            <Tooltip>
-              <TooltipTrigger asChild disabled={props?.disabled}>
+
+        <DropdownMenu onOpenChange={handleMenuOpenChange}
+          open={menuOpen}
+        >
+          <div className="relative flex flex-col">
+            {/* <Tooltip> */}
+              {/* <TooltipTrigger asChild */}
+                {/* disabled={props?.disabled} */}
+              {/* > */}
                 <Button
-                  variant="ghost"
-                  size="icon"
-                  className="richtext-w-7 richtext-h-7 richtext-cursor-grab richtext-relative richtext-z-[1]"
+                  className="relative z-[1] size-7 cursor-grab"
                   disabled={props?.disabled}
+                  size="icon"
+                  type="button"
+                  variant="ghost"
                   onMouseUp={(e) => {
                     e.preventDefault();
                     if (props?.disabled) {
@@ -218,25 +227,32 @@ function ContentMenu(props: ContentMenuProps) {
                     }
                     setMenuOpen(true);
                   }}
-                  type="button"
                 >
-                  <IconComponent name="Grip" className="richtext-text-sm dark:richtext-text-neutral-200 richtext-text-neutral-600" />
+                  <IconComponent className="text-sm text-neutral-600 dark:text-neutral-200"
+                    name="Grip"
+                  />
                 </Button>
-              </TooltipTrigger>
-              <TooltipContent>
+              {/* </TooltipTrigger> */}
+
+              {/* <TooltipContent>
                 {t('editor.draghandle.tooltip')}
               </TooltipContent>
-            </Tooltip>
+            </Tooltip> */}
 
-            <DropdownMenuTrigger className="richtext-absolute richtext-top-0 richtext-left-0 richtext-w-[28px] richtext-h-[28px] richtext-z-0" />
+            <DropdownMenuTrigger className="absolute left-0 top-0 z-0 size-[28px]" />
           </div>
 
-          <DropdownMenuContent className="richtext-w-48" align="start" side="bottom" sideOffset={0}>
+          <DropdownMenuContent align="start"
+            className="w-48"
+            side="bottom"
+            sideOffset={0}
+          >
             <DropdownMenuItem
+              className="flex gap-3 bg-opacity-10 hover:bg-red-400 hover:bg-opacity-20 focus:bg-red-400 focus:bg-opacity-30 focus:text-red-500 dark:hover:bg-opacity-20 dark:hover:text-red-500"
               onClick={deleteNode}
-              className="richtext-flex richtext-gap-3 focus:richtext-text-red-500 focus:richtext-bg-red-400 hover:richtext-bg-red-400 dark:hover:richtext-text-red-500 richtext-bg-opacity-10 hover:richtext-bg-opacity-20 focus:richtext-bg-opacity-30 dark:hover:richtext-bg-opacity-20"
             >
               <IconComponent name="Trash2" />
+
               <span>
                 {t('editor.remove')}
               </span>
@@ -244,8 +260,11 @@ function ContentMenu(props: ContentMenuProps) {
 
             {hasClearExtension
               ? (
-                <DropdownMenuItem className="richtext-flex richtext-gap-3" onClick={resetTextFormatting}>
+                <DropdownMenuItem className="flex gap-3"
+                  onClick={resetTextFormatting}
+                >
                   <IconComponent name="PaintRoller" />
+
                   <span>
                     {t('editor.clear.tooltip')}
                   </span>
@@ -253,14 +272,21 @@ function ContentMenu(props: ContentMenuProps) {
               )
               : null}
 
-            <DropdownMenuItem className="richtext-flex richtext-gap-3" onClick={copyNodeToClipboard}>
+            <DropdownMenuItem className="flex gap-3"
+              onClick={copyNodeToClipboard}
+            >
               <IconComponent name="Clipboard" />
+
               <span>
                 {t('editor.copyToClipboard')}
               </span>
             </DropdownMenuItem>
-            <DropdownMenuItem className="richtext-flex richtext-gap-3" onClick={duplicateNode}>
+
+            <DropdownMenuItem className="flex gap-3"
+              onClick={duplicateNode}
+            >
               <IconComponent name="Copy" />
+
               <span>
                 {t('editor.copy')}
               </span>
@@ -275,28 +301,41 @@ function ContentMenu(props: ContentMenuProps) {
             {hasTextAlignExtension
               ? (
                 <DropdownMenuSub>
-                  <DropdownMenuSubTrigger className="richtext-flex richtext-gap-3">
+                  <DropdownMenuSubTrigger className="flex gap-3">
                     <IconComponent name="AlignCenter" />
+
                     <span>
                       {t('editor.textalign.tooltip')}
                     </span>
                   </DropdownMenuSubTrigger>
+
                   <DropdownMenuPortal>
                     <DropdownMenuSubContent>
-                      <DropdownMenuItem className="richtext-flex richtext-gap-3" onClick={() => setTextAlign('left')}>
+                      <DropdownMenuItem className="flex gap-3"
+                        onClick={() => setTextAlign('left')}
+                      >
                         <IconComponent name="AlignLeft" />
+
                         <span>
                           {t('editor.textalign.left.tooltip')}
                         </span>
                       </DropdownMenuItem>
-                      <DropdownMenuItem className="richtext-flex richtext-gap-3" onClick={() => setTextAlign('center')}>
+
+                      <DropdownMenuItem className="flex gap-3"
+                        onClick={() => setTextAlign('center')}
+                      >
                         <IconComponent name="AlignCenter" />
+
                         <span>
                           {t('editor.textalign.center.tooltip')}
                         </span>
                       </DropdownMenuItem>
-                      <DropdownMenuItem className="richtext-flex richtext-gap-3" onClick={() => setTextAlign('right')}>
+
+                      <DropdownMenuItem className="flex gap-3"
+                        onClick={() => setTextAlign('right')}
+                      >
                         <IconComponent name="AlignRight" />
+
                         <span>
                           {t('editor.textalign.right.tooltip')}
                         </span>
@@ -310,31 +349,35 @@ function ContentMenu(props: ContentMenuProps) {
             {hasIndentExtension
               ? (
                 <DropdownMenuSub>
-                  <DropdownMenuSubTrigger className="richtext-flex richtext-gap-3">
+                  <DropdownMenuSubTrigger className="flex gap-3">
                     <IconComponent name="IndentIncrease" />
+
                     <span>
                       {t('editor.indent')}
                     </span>
                   </DropdownMenuSubTrigger>
+
                   <DropdownMenuPortal>
                     <DropdownMenuSubContent>
                       <DropdownMenuItem
-                        className="richtext-flex richtext-gap-3"
-                        onClick={increaseIndent}
+                        className="flex gap-3"
                         disabled={currentNode?.attrs?.indent >= IndentProps.max}
+                        onClick={increaseIndent}
                       >
                         <IconComponent name="IndentIncrease" />
+
                         <span>
                           {t('editor.indent.tooltip')}
                         </span>
                       </DropdownMenuItem>
 
                       <DropdownMenuItem
-                        className="richtext-flex richtext-gap-3"
-                        onClick={decreaseIndent}
+                        className="flex gap-3"
                         disabled={currentNode?.attrs?.indent <= IndentProps.min}
+                        onClick={decreaseIndent}
                       >
                         <IconComponent name="IndentDecrease" />
+
                         <span>
                           {t('editor.outdent.tooltip')}
                         </span>

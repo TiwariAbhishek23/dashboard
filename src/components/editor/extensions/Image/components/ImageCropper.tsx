@@ -21,7 +21,7 @@ import { dataURLtoFile, readImageAsBase64 } from '@/utils/file';
 import 'react-image-crop/dist/ReactCrop.css';
 import { IconComponent } from '@/assets/icons/Icon';
 
-export function ImageCropper({ editor, imageInline, onClose }: any) {
+export const ImageCropper = ({ editor, imageInline, onClose }: any) => {
   const { t } = useLocale();
 
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -36,14 +36,14 @@ export function ImageCropper({ editor, imageInline, onClose }: any) {
     file: null,
   });
 
-  function onCropComplete(crop: PixelCrop) {
+  const onCropComplete = (crop: PixelCrop) => {
     if (imgRef.current && crop.width && crop.height) {
       const croppedImageUrl = getCroppedImg(imgRef.current, crop);
       setCroppedImageUrl(croppedImageUrl);
     }
   }
 
-  function getCroppedImg(image: HTMLImageElement, crop: PixelCrop): string {
+  const getCroppedImg = (image: HTMLImageElement, crop: PixelCrop): string => {
     const canvas = document.createElement('canvas');
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
@@ -72,7 +72,7 @@ export function ImageCropper({ editor, imageInline, onClose }: any) {
     return canvas.toDataURL('image/png', 1.0);
   }
 
-  async function onCrop() {
+  const onCrop = async () => {
     try {
       const fileCrop = dataURLtoFile(croppedImageUrl, urlUpload?.file?.name || 'image.png');
 
@@ -101,7 +101,7 @@ export function ImageCropper({ editor, imageInline, onClose }: any) {
     }
   }
 
-  function handleClick(e: any) {
+  const handleClick = (e: any) => {
     e.preventDefault();
     fileInput.current?.click();
   }

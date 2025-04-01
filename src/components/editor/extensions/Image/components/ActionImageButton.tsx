@@ -9,7 +9,7 @@ import { useLocale } from '@/locales';
 import { actionDialogImage, useDialogImage } from '@/components/editor/extensions/Image/store';
 import Image from '@/components/editor/extensions/Image/Image';
 
-function ActionImageButton(props: any) {
+const ActionImageButton = (props: any) => {
   const { t } = useLocale();
 
   const dialogImage = useDialogImage();
@@ -27,7 +27,7 @@ function ActionImageButton(props: any) {
     return uploadOptions;
   }, [props.editor]);
 
-  async function handleFile(event: any) {
+const handleFile = async (event: any) => {
     const files = event?.target?.files;
     if (!props.editor || props.editor.isDestroyed || files.length === 0) {
       return;
@@ -45,7 +45,7 @@ function ActionImageButton(props: any) {
     actionDialogImage.setOpen(false);
     setImageInline(false);
   }
-  function handleLink(e: any) {
+  const handleLink = (e: any) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -55,7 +55,7 @@ function ActionImageButton(props: any) {
     setLink('');
   }
 
-  function handleClick(e: any) {
+  const handleClick = (e: any) => {
     e.preventDefault();
     fileInput.current?.click();
   }

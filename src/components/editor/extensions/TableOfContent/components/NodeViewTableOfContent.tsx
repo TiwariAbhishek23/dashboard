@@ -10,7 +10,7 @@ import { useEditableEditor } from '@/store/editableEditor';
 
 import styles from './index.module.css';
 
-function arrToTree(tocs: any) {
+const arrToTree = (tocs: any) => {
   const result = [] as any;
   const levels = [result];
 
@@ -29,7 +29,7 @@ function arrToTree(tocs: any) {
   return result;
 }
 
-export function NodeViewTableOfContent({ editor }: any) {
+export const NodeViewTableOfContent = ({ editor }: any) => {
   const isEditable = useEditableEditor();
   const [items, setItems] = useState([]);
   const { t } = useLocale();

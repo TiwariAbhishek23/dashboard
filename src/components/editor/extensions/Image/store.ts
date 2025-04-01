@@ -2,7 +2,7 @@ import { createSignal, useSignalValue } from 'reactjs-signal';
 
 const dialogImage = createSignal(false);
 
-export function useDialogImage() {
+export const useDialogImage = () => {
   return useSignalValue(dialogImage);
 }
 

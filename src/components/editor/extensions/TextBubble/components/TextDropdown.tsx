@@ -17,7 +17,7 @@ interface IPropsTextDropdown {
   tooltip?: string
 }
 
-function TextDropdown(props: IPropsTextDropdown) {
+const TextDropdown = (props: IPropsTextDropdown) => {
   const { t } = useLocale();
 
   const menus = useMemo(() => {

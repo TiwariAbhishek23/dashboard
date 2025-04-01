@@ -18,10 +18,10 @@ interface IPropsLinkEditPopover {
   action?: ButtonViewReturnComponentProps['action']
 }
 
-function LinkEditPopover(props: IPropsLinkEditPopover) {
+const LinkEditPopover = (props: IPropsLinkEditPopover) => {
   const [open, setOpen] = useState(false);
 
-  function onSetLink(link: string, text?: string, openInNewTab?: boolean) {
+  const onSetLink = (link: string, text?: string, openInNewTab?: boolean) => {
     if (props.action) {
       props.action({ link, text, openInNewTab });
       setOpen(false);

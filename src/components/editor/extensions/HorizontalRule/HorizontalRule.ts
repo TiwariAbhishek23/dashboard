@@ -7,7 +7,7 @@ import type { GeneralOptions } from '@/types/types';
 
 export interface HorizontalRuleOptions
   extends TiptapHorizontalRuleOptions,
-  GeneralOptions<HorizontalRuleOptions> {}
+    GeneralOptions<HorizontalRuleOptions> {}
 
 export const HorizontalRule = TiptapHorizontalRule.extend<HorizontalRuleOptions>({
   renderHTML() {
@@ -19,6 +19,7 @@ export const HorizontalRule = TiptapHorizontalRule.extend<HorizontalRuleOptions>
       ['hr'],
     ];
   },
+
   addOptions() {
     return {
       ...this.parent?.(),
@@ -34,6 +35,7 @@ export const HorizontalRule = TiptapHorizontalRule.extend<HorizontalRuleOptions>
       }),
     };
   },
+
   addKeyboardShortcuts() {
     return {
       'Mod-Alt-s': () => this.editor.commands.setHorizontalRule(),

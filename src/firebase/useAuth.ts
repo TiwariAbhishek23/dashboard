@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { User, signOut } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
-import { auth } from '@/firebase';
+import { auth } from './firebase';
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);

@@ -7,7 +7,7 @@ import { IconComponent } from '@/assets/icons';
 import { useLocale } from '@/locales';
 import { ON_SEARCH_RESULTS, SearchAndReplace } from '@/components/editor/extensions/SearchAndReplace/SearchAndReplace';
 
-function SearchAndReplaceButton({ editor, ...props }: any) {
+const SearchAndReplaceButton = ({ editor, ...props }: any) => {
   const { t } = useLocale();
 
   const [currentIndex, setCurrentIndex] = useState(-1);

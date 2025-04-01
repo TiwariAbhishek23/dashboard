@@ -37,7 +37,7 @@ interface Props {
   items?: Item[]
 }
 
-function HeadingButton(props: Props) {
+const HeadingButton = (props: Props) => {
   const active = useMemo(() => {
     const find: any = props?.items?.find((k: any) => k.isActive());
 

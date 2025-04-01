@@ -6,7 +6,7 @@ import { SigmaIcon, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { auth } from "@/firebase";
 
-export default function Signup() {
+const Signup = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
@@ -115,3 +115,5 @@ export default function Signup() {
     </>
   );
 }
+
+export default Signup;

@@ -1848,7 +1848,7 @@ export const emojisToName = Object.keys(namesToEmoji).reduce((accu: any, name: a
 export const names = Object.keys(namesToEmoji).map(key => key);
 export const emojis = Object.keys(namesToEmoji).map(key => namesToEmoji[key]);
 
-export function emojiSearch(query: any) {
+export const emojiSearch = (query: any) => {
   return names
     .filter(name => name.startsWith(query))
     .map(name => ({

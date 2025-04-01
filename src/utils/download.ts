@@ -1,6 +1,6 @@
 const isBrowser = typeof window !== 'undefined';
 
-export function downloadFromBlob(blob: Blob, filename: string) {
+export const downloadFromBlob = (blob: Blob, filename: string) => {
   if (isBrowser) {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');

@@ -23,7 +23,6 @@ export const Blockquote = TiptapBlockquote.extend<BlockquoteOptions>({
           disabled: !editor.can().toggleBlockquote(),
           icon: 'TextQuote',
           shortcutKeys: ['shift', 'mod', 'B'],
-          tooltip: t('editor.blockquote.tooltip'),
         },
       }),
     };

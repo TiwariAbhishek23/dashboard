@@ -1,4 +1,4 @@
-export function getStorage(key: any, defaultValue = null) {
+export const getStorage = (key: any, defaultValue = null) => {
   if (typeof window === 'undefined')
     // eslint-disable-next-line unicorn/error-message
     throw new Error();
@@ -13,6 +13,6 @@ export function getStorage(key: any, defaultValue = null) {
   }
 }
 
-export function setStorage(key: any, value: any) {
+export const setStorage = (key: any, value: any) => {
   window.localStorage.setItem(key, `${value}`);
 }

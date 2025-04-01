@@ -1,7 +1,9 @@
-import Editor from "@/components/editor/editor";
+import Dashboard from "@/components/pages/dashboard/dashboard";
 
-export default function Home() {
+const dashboard = () => {
     return (
-        <Editor />
+        <Dashboard />
     );
 }
+
+export default dashboard;

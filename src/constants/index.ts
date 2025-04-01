@@ -18,9 +18,9 @@ export const IMAGE_MAX_SIZE = 100_000 as const;
 export const IMAGE_THROTTLE_WAIT_TIME = 16 as const;
 
 /** Default number of rows and columns for grids when creating a table */
-export const TABLE_INIT_GRID_SIZE = 10 as const;
+export const TABLE_INIT_GRID_SIZE = 20 as const;
 /** Maximum number of rows and columns for grids when creating a table */
-export const TABLE_MAX_GRID_SIZE = 10 as const;
+export const TABLE_MAX_GRID_SIZE = 20 as const;
 /** Minimum number of rows and columns for grids when creating a table */
 export const TABLE_DEFAULT_SELECTED_GRID_SIZE = 2 as const;
 
@@ -195,5 +195,7 @@ export const BUBBLE_TEXT_LIST = [
   'divider',
   'color',
   'highlight',
+  'divider',
+  'subAndSuperScript',
   'textAlign',
 ];

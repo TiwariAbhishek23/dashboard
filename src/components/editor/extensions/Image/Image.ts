@@ -94,7 +94,7 @@ export const Image = TiptapImage.extend<IImageOptions>({
           upload: extension.options.upload,
           /* If setImage is not available(when Image Component is not imported), the button is disabled */
           disabled: !editor.can().setImage?.({}),
-          icon: 'ImageUp',
+          icon: 'Image',
           tooltip: t('editor.image.tooltip'),
           editor,
         },

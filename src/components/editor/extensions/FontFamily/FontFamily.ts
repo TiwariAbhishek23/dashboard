@@ -33,7 +33,7 @@ export const FontFamily = FontFamilyTiptap.extend<FontFamilyOptions>({
           },
           isActive: () => editor.isActive('textStyle', { fontFamily: font.value }) || false,
           disabled: !editor.can().setFontFamily(font.value),
-          title: font.name,
+          title: font.value,
           font: font.value,
         }));
 
@@ -52,7 +52,6 @@ export const FontFamily = FontFamilyTiptap.extend<FontFamilyOptions>({
         return {
           component: FontFamilyButton,
           componentProps: {
-            tooltip: t('editor.fontFamily.tooltip'),
             disabled,
             items,
             editor,

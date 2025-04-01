@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 import { Ban, Clock, Download, File, FileText, Folder, HardDrive, Share, Star, Trash, Trash2, Upload, UserCircle, Users } from "lucide-react";
-export default function FileManager() {
+const FileManager = () => {
   const [selectedFolder] = useState("My Documents");
   const [showSharePopup, setShowSharePopup] = useState(false);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
@@ -138,3 +138,5 @@ export default function FileManager() {
     </div>
   );
 }
+
+export default FileManager;

@@ -13,7 +13,7 @@ import { IconComponent } from '@/assets/icons/Icon';
 import { cn } from '@/lib/cn';
 import { useLocale } from '@/locales';
 
-function CommandsList(props: any, ref: any) {
+const CommandsList = (props: any, ref: any) => {
   // 选中的索引
   const [selectedCommandIndex, setSelectedCommandIndex] = useState(0);
   const [selectedGroupIndex, setSelectedGroupIndex] = useState(0);
@@ -44,7 +44,7 @@ function CommandsList(props: any, ref: any) {
     }
   }, [selectedCommandIndex, selectedGroupIndex]);
 
-  function onKeyDown({ event }: any) {
+  const onKeyDown = ({ event }: any) => {
     if (event.key === 'ArrowUp') {
       upHandler();
       return true;
@@ -63,7 +63,7 @@ function CommandsList(props: any, ref: any) {
     return false;
   }
 
-  function upHandler() {
+  const upHandler = () => {
     if (props.items.length === 0) {
       return false;
     }
@@ -84,7 +84,7 @@ function CommandsList(props: any, ref: any) {
     setSelectedGroupIndex(newGroupIndex);
   }
 
-  function downHandler() {
+  const downHandler = () => {
     if (props.items.length === 0) {
       return false;
     }
@@ -103,7 +103,7 @@ function CommandsList(props: any, ref: any) {
     setSelectedGroupIndex(newGroupIndex);
   }
 
-  function enterHandler() {
+  const enterHandler = () => {
     if (props.items.length === 0 || selectedGroupIndex === -1 || selectedCommandIndex === -1) {
       return false;
     }
@@ -111,15 +111,15 @@ function CommandsList(props: any, ref: any) {
     selectItem(selectedGroupIndex, selectedCommandIndex);
   }
 
-  function selectItem(groupIndex: number, commandIndex: number) {
+  const selectItem = (groupIndex: number, commandIndex: number) => {
     const command = props.items[groupIndex].commands[commandIndex];
     props.command(command);
   }
 
-  function createCommandClickHandler(groupIndex: number, commandIndex: number) {
+  const createCommandClickHandler = (groupIndex: number, commandIndex: number) => {
     selectItem(groupIndex, commandIndex);
   }
-  function setActiveItemRef(groupIndex: number, commandIndex: number, el: any) {
+  const setActiveItemRef = (groupIndex: number, commandIndex: number, el: any) => {
     activeItemRefs.current[groupIndex * 1000 + commandIndex] = el;
   }
 

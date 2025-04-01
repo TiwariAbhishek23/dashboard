@@ -3,7 +3,7 @@ import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey } from '@tiptap/pm/state';
 
 // @ts-ignore
-function nodeEqualsType({ types, node }) {
+const nodeEqualsType = ({ types, node }) => {
   return (Array.isArray(types) && types.includes(node.type)) || node.type === types;
 }
 

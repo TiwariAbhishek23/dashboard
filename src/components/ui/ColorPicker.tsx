@@ -1,29 +1,25 @@
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
-
-import { Plus } from 'lucide-react';
+import { Plus, Eraser } from 'lucide-react';
 import { HexColorPicker } from 'react-colorful';
-
 import { Button, Input, Popover, PopoverContent, PopoverTrigger, Separator } from '@/components/ui';
-import { NoFill } from '@/assets/icons/NoFill';
 import { COLORS_LIST as DEFAULT_COLORS_LIST } from '@/constants';
 import { useLocale } from '@/locales';
 
 export interface ColorPickerProps {
-  highlight?: boolean
-  disabled?: boolean
-  colors?: string[]
-  defaultColor?: string
-  children: React.ReactNode
-  onChange?: (color: string | undefined) => void
-  setSelectedColor?: (color: string | undefined) => void
-  selectedColor?: string
+  highlight?: boolean;
+  disabled?: boolean;
+  colors?: string[];
+  defaultColor?: string;
+  children: React.ReactNode;
+  onChange?: (color: string | undefined) => void;
+  setSelectedColor?: (color: string | undefined) => void;
+  selectedColor?: string;
 }
 
 function ColorPicker(props: ColorPickerProps) {
   const { t } = useLocale();
-
   const {
     highlight = false,
     disabled = false,
@@ -51,7 +47,7 @@ function ColorPicker(props: ColorPickerProps) {
       newRecentColors.splice(index, 1);
     }
     newRecentColors.unshift(color);
-    if (newRecentColors.length > 10) {
+    if (newRecentColors.length > 5) { // Reduced to 5 for compactness
       newRecentColors.pop();
     }
     setRecentColorsStore(newRecentColors);
@@ -59,12 +55,10 @@ function ColorPicker(props: ColorPickerProps) {
 
   function setColor(color: string | undefined) {
     if (color === undefined) {
-      // clear color
       setSelectedColor?.(color);
       onChange?.(color);
       return;
     }
-    // check if color is correct
     const isCorrectColor = /^#([\da-f]{3}){1,2}$/i.test(color);
     if (isCorrectColor) {
       setSelectedColor?.(color);
@@ -75,131 +69,85 @@ function ColorPicker(props: ColorPickerProps) {
 
   return (
     <Popover modal>
-      <PopoverTrigger asChild
-        className="!p-0"
-        disabled={disabled}
-      >
+      <PopoverTrigger asChild className="!p-0" disabled={disabled}>
         {props?.children}
       </PopoverTrigger>
 
-      <PopoverContent align="start"
-        className="size-full p-2"
+      <PopoverContent
+        align="start"
+        className="p-2 dark:bg-gray-800 rounded-md shadow-md border border-gray-200 dark:border-gray-700"
         hideWhenDetached
         side="bottom"
       >
         <div className="flex flex-col">
-          {highlight
-            ? (
-              <div
-                className="rd-1 flex cursor-pointer items-center gap-[4px] p-1 hover:bg-accent"
-                onClick={() => setColor(undefined)}
-              >
-                <NoFill />
-
-                <span className="ml-1 text-sm">
-                  {t('editor.nofill')}
-                </span>
-              </div>
-            )
-            : (
-              <div
-                className="rd-1 flex cursor-pointer items-center gap-[4px] p-1 hover:bg-accent"
-                onClick={() => {
-                  setColor(undefined);
-                }}
-              >
-                <NoFill />
-
-                <span className="ml-1 text-sm">
-                  {t('editor.default')}
-                </span>
-              </div>
-            )}
-
-          {chunkedColors.map((items: string[], index: number) => {
-            return (
-              <span className="relative flex h-auto w-full p-0 last:pb-2"
-                key={index}
-              >
-                {items.map((item: string, idx) => {
-                  return (
-                    <span
-                      className="inline-block size-6 flex-[0_0_auto] cursor-pointer rounded-sm !border border-transparent p-0.5 hover:border-border hover:shadow-sm"
-                      key={`sub-color-${idx}`}
-                      onClick={() => setColor(item)}
-                    >
-                      <span
-                        className="relative block size-[18px] rounded-[2px] border-transparent"
-                        style={{
-                          backgroundColor: item,
-                        }}
-                      >
-                        {item === selectedColor
-                          ? (
-                            <svg
-                              className="absolute -top-px left-px block size-3"
-                              viewBox="0 0 18 18"
-                              style={{
-                                fill: 'rgb(255, 255, 255)',
-                              }}
-                            >
-                              <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path>
-                            </svg>
-                          )
-                          : (
-                            <svg
-                              viewBox="0 0 18 18"
-                              style={{
-                                fill: 'rgb(255, 255, 255)',
-                                display: 'none',
-                              }}
-                            >
-                              <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path>
-                            </svg>
-                          )}
-                      </span>
-                    </span>
-                  );
-                })}
-              </span>
-            );
-          })}
-
-          <div>
-            <div className="my-1 text-sm">
-              {t('editor.recent')}
-            </div>
-
-            <span className="relative flex h-auto w-full p-0 last:pb-2">
-              {recentColorsStore?.map((item, index) => {
-                return (
-                  <span
-                    className="inline-block size-6 flex-[0_0_auto] cursor-pointer rounded-sm !border border-transparent p-0.5 hover:border-border hover:shadow-sm"
-                    key={`sub-color-recent-${index}`}
-                    onClick={() => setColor(item)}
-                  >
-                    <span
-                      className="relative block size-[18px] rounded-[2px] border-transparent"
-                      style={{
-                        backgroundColor: item,
-                      }}
-                    >
-                      <svg
-                        viewBox="0 0 18 18"
-                        style={{
-                          fill: 'rgb(255, 255, 255)',
-                          display: 'none',
-                        }}
-                      >
-                        <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path>
-                      </svg>
-                    </span>
-                  </span>
-                );
-              })}
+          {/*No Fill / Default Option */}
+          <div
+            className="flex items-center gap-1 p-3 m-1 rounded transition-colors cursor-pointer hover:bg-gray-100"
+            onClick={() => setColor(undefined)}
+          >
+            <Eraser className="w-4 h-4 text-gray-500" />
+            <span className="text-xs text-gray-700 dark:text-gray-200">
+              Clear
             </span>
           </div>
 
+          {/* Preset Colors */}
+          <div className="grid grid-cols-10 pr-2">
+            {chunkedColors.flat().map((item, idx) => (
+              <div
+                key={`color-${idx}`}
+                className="relative w-6 h-6 m-2 rounded-full cursor-pointer transition-transform hover:scale-105"
+                onClick={() => setColor(item)}
+                style={{ backgroundColor: item }}
+              >
+                {item === selectedColor && (
+                  <svg
+                    className="absolute inset-0 m-auto w-3 h-3 text-white drop-shadow-sm"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path d="M20 6L9 17l-5-5" />
+                  </svg>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Recent Colors */}
+          {recentColorsStore.length > 0 && (
+            <div className='my-2'>
+              <Separator className="my-1 bg-gray-200 dark:bg-gray-600" />
+              <div className="text-xs font-medium my-2 text-gray-600 dark:text-gray-300">
+                {t('editor.recent')}
+              </div>
+              <div className="grid grid-cols-5 gap-1">
+                {recentColorsStore.map((item, idx) => (
+                  <div
+                    key={`recent-${idx}`}
+                    className="relative w-6 h-6 rounded-full cursor-pointer transition-transform hover:scale-105"
+                    onClick={() => setColor(item)}
+                    style={{ backgroundColor: item }}
+                  >
+                    {item === selectedColor && (
+                      <svg
+                        className="absolute inset-0 m-auto w-3 h-3 text-white drop-shadow-sm"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
+                        <path d="M20 6L9 17l-5-5" />
+                      </svg>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Add More Color */}
           <AddMoreColor setColor={setColor} />
         </div>
       </PopoverContent>
@@ -208,7 +156,7 @@ function ColorPicker(props: ColorPickerProps) {
 }
 
 interface AddMoreColorProps {
-  setColor: (color: string) => void
+  setColor: (color: string) => void;
 }
 
 function AddMoreColor({ setColor }: AddMoreColorProps) {
@@ -217,55 +165,55 @@ function AddMoreColor({ setColor }: AddMoreColorProps) {
   const { t } = useLocale();
 
   useEffect(() => {
-    return () => {
-      setOpenColorMore(false);
-    };
+    return () => setOpenColorMore(false);
   }, []);
 
   return (
     <Popover open={openColorMore}>
       <PopoverTrigger asChild>
         <div
-          className="p-1.5 text-sm hover:cursor-pointer hover:bg-accent"
+          className="flex items-center gap-1 p-3 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer text-xs text-gray-700 dark:text-gray-200"
           onClick={(e) => {
             e.preventDefault();
             setOpenColorMore(true);
           }}
         >
+          <Plus className="w-4 h-4" />
           {t('editor.color.more')}
-          ...
         </div>
       </PopoverTrigger>
 
-      <PopoverContent>
-        <div className="flex flex-col items-center justify-center">
-          <HexColorPicker color={colorMore}
+      <PopoverContent className="w-56 p-3 bg-white dark:bg-gray-800 rounded-md shadow-md border border-gray-200 dark:border-gray-700">
+        <div className="flex flex-col gap-3">
+          <HexColorPicker
+            color={colorMore}
             onChange={setColorMore}
+            className="w-full rounded shadow-sm"
           />
-
-          <Input
-            className="mt-[8px] w-full"
-            type="text"
-            value={colorMore.slice(1)}
-            onChange={(e) => {
+          <div className="flex items-center gap-2">
+            <Input
+              className="w-full h-8 text-xs bg-gray-100 dark:bg-gray-700 border-none focus:ring-1 focus:ring-blue-500 rounded"
+              type="text"
+              value={colorMore.slice(1)}
+              onChange={(e) => setColorMore(`#${e.target.value}`)}
+            />
+            <div
+              className="w-6 h-6 rounded shadow-sm"
+              style={{ backgroundColor: colorMore }}
+            />
+          </div>
+          <Button
+            className="h-8 bg-blue-500 hover:bg-blue-600 text-white text-xs rounded transition-colors"
+            onClick={(e) => {
               e.preventDefault();
-              setColorMore(`#${e.target.value}`);
+              setColor(colorMore);
+              setOpenColorMore(false);
             }}
-          />
+          >
+            <Plus className="w-3 h-3 mr-1" />
+            Apply
+          </Button>
         </div>
-
-        <Separator className="my-[10px]" />
-
-        <Button
-          className="w-full"
-          onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-            e.preventDefault();
-            setColor(colorMore);
-            setOpenColorMore(false);
-          }}
-        >
-          <Plus size={16} />
-        </Button>
       </PopoverContent>
     </Popover>
   );

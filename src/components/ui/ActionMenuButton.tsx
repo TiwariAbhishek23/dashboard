@@ -37,8 +37,6 @@ const ActionMenuButton = React.forwardRef<HTMLButtonElement, ActionMenuButtonPro
     const Comp = asChild ? Slot : Button;
 
     return (
-      <Tooltip>
-        <TooltipTrigger asChild>
           <Comp
             className="h-[32px] min-w-24 overflow-hidden px-[5px]  py-0"
             disabled={props?.disabled}
@@ -56,22 +54,6 @@ const ActionMenuButton = React.forwardRef<HTMLButtonElement, ActionMenuButtonPro
               {Icon && <Icon className="ml-1 size-3 shrink-0 text-zinc-500" />}
             </div>
           </Comp>
-        </TooltipTrigger>
-
-        <TooltipContent>
-          <div className="flex max-w-24 flex-col items-center text-center">
-            {props?.tooltip && <div>
-              {props?.tooltip}
-            </div>}
-
-            <div className="flex">
-              {!!props?.shortcutKeys?.length && <span>
-                {getShortcutKeys(props?.shortcutKeys)}
-              </span>}
-            </div>
-          </div>
-        </TooltipContent>
-      </Tooltip>
     );
   },
 );

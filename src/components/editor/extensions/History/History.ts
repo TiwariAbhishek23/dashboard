@@ -1,7 +1,7 @@
 import type { HistoryOptions as TiptapHistoryOptions } from '@tiptap/extension-history';
 import { History as TiptapHistory } from '@tiptap/extension-history';
 
-import HistoryActionButton from '@/components/editor/extensions/History/components/HistoryActionButton';
+import HistoryActionButton from './components/HistoryActionButton';
 import type { GeneralOptions } from '@/types/types';
 
 export interface HistoryOptions extends TiptapHistoryOptions, GeneralOptions<HistoryOptions> {}

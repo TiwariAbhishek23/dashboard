@@ -36,7 +36,7 @@ interface Props {
   items?: Item[]
 }
 
-function FontFamilyButton(props: Props) {
+const FontFamilyButton = (props: Props) => {
   const { t, lang } = useLocale();
 
   const active = useMemo(() => {

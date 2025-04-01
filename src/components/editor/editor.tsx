@@ -6,6 +6,7 @@ import EditorFrame from '@/components/ui/EditorFrame'
 
 import {
   BaseKit,
+  History,
   Blockquote,
   Bold,
   BulletList,
@@ -15,13 +16,12 @@ import {
   FontFamily,
   FontSize,
   FormatPainter,
-  Heading,
   Highlight,
-  History,
   HorizontalRule,
   Image,
   Indent,
   Italic,
+  AI,
   LineHeight,
   Link,
   OrderedList,
@@ -29,14 +29,13 @@ import {
   SlashCommand,
   Strike,
   Table,
-  TableOfContents,
-  TaskList,
+  SubAndSuperScript,
   TextAlign,
   TextDirection,
   Underline,
 } from '@/components/editor/extensions'
 
-function convertBase64ToBlob(base64: string) {
+const convertBase64ToBlob = (base64: string) => {
   const arr = base64.split(',')
   const mime = arr[0].match(/:(.*?);/)![1]
   const bstr = atob(arr[1])
@@ -55,29 +54,18 @@ const extensions = [
     },
   }),
   History,
-
-  Heading.configure({ spacer: true }),
-  FontSize,
-  FontFamily,
+  AI.configure({spacer: true}),
+  FontFamily.configure({spacer: true}),
+  FontSize.configure({ spacer: true }),
   Bold.configure({ spacer: true }),
   Italic,
   Underline,
   Strike,
-  Emoji,
-  Color.configure({ spacer: true }),
+  Color,
   Highlight,
-  BulletList,
-  OrderedList,
-  TextAlign.configure({ types: ['heading', 'paragraph'], spacer: true }),
-  Indent,
-  LineHeight,
-  TaskList.configure({
-    spacer: true,
-    taskItem: {
-      nested: true,
-    },
-  }),
-  Link,
+  Link.configure({spacer: true}),
+  Table,
+  Emoji,
   Image.configure({
     upload: (files: File) => {
       return new Promise((resolve) => {
@@ -87,22 +75,27 @@ const extensions = [
       })
     },
   }),
-  Blockquote,
-  SlashCommand,
-  HorizontalRule,
-  Table,
-  TextDirection,
+  TextAlign.configure({ types: ['heading', 'paragraph'], spacer: true }),
+  BulletList,
+  OrderedList,
+  Indent,
+  LineHeight,
 
+  Blockquote.configure({spacer: true}),
+  HorizontalRule,
+  TextDirection,
+  SubAndSuperScript,
   FormatPainter.configure({ spacer: true }),
   Clear,
   SearchAndReplace,
+  SlashCommand,
 ]
 
 const DEFAULT = ``
 
-function debounce(func: any, wait: number) {
+const debounce = (func: any, wait: number) => {
   let timeout: NodeJS.Timeout
-  return function (...args: any[]) {
+  return (...args: any[]) => {
     clearTimeout(timeout)
     // @ts-ignore
     timeout = setTimeout(() => func.apply(this, args), wait)
@@ -136,7 +129,18 @@ const Editor = () => {
         dark={theme === 'dark'}
         disabled={disable}
       />
+      {/* {typeof content === 'string' && (
+        <textarea
+          style={{
+            marginTop: 20,
+            height: 500,
+          }}
+          readOnly
+          value={content}
+        />
+      )} */}
     </div>
+
   )
 }
 

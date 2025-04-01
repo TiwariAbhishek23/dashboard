@@ -5,7 +5,7 @@ import { ActionButton } from '@/components/ui';
 import { TableOfContents } from '../TableOfContent';
 import { useActive } from '@/hooks/useActive';
 
-export function TableOfContentActionButton({ editor, icon, tooltip }: { editor: Editor, tooltip: string, icon: string }) {
+export const TableOfContentActionButton = ({ editor, icon, tooltip }: { editor: Editor, tooltip: string, icon: string }) => {
   const isTaskListActive = useActive(editor, TableOfContents.name);
 
   const tableOfContent = useCallback(() => {

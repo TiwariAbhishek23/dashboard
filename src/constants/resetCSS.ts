@@ -1,5 +1,5 @@
 export const RESET_CSS = `
-.reactjs-tiptap-editor, .dialog-content {
+.tiptap-editor, .dialog-content {
   button,
   input:where([type=button]),
   input:where([type=reset]),

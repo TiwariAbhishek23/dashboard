@@ -1,4 +1,4 @@
-export function safeJSONParse(str: any, defaultValue = {}) {
+export const safeJSONParse = (str: any, defaultValue = {}) => {
   if (typeof str === 'object')
     return str;
 
@@ -9,7 +9,7 @@ export function safeJSONParse(str: any, defaultValue = {}) {
   }
 }
 
-export function safeJSONStringify(obj: any, defaultValue = '{}') {
+export const safeJSONStringify = (obj: any, defaultValue = '{}') => {
   try {
     return JSON.stringify(obj);
   } catch {

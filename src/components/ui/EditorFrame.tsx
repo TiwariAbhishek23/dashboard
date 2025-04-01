@@ -7,7 +7,7 @@ import type { UseEditorOptions } from '@tiptap/react';
 import { EditorContent, useEditor } from '@tiptap/react';
 import { differenceBy, throttle } from 'lodash-es';
 
-import { BubbleMenu, Toolbar, TooltipProvider } from '@/components/ui';
+import { BubbleMenu, Toolbar } from '@/components/ui';
 import { Toaster } from './Sonner';
 import { EDITOR_UPDATE_WATCH_THROTTLE_WAIT_TIME } from '@/constants';
 import { RESET_CSS } from '@/constants/resetCSS';
@@ -164,29 +164,27 @@ const EditorFrame = (props: EditorFrameProps, ref: React.ForwardedRef<{ editor: 
   }
 
   return (
-    <div className="reactjs-tiptap-editor">
-      <TooltipProvider delayDuration={0}
-        disableHoverableContent
-      >
-        <div className="overflow-hidden rounded-[0.5rem] bg-background shadow outline-1">
+    <div className="editor">
+      <div className="overflow-hidden rounded-[0.5rem] shadow outline-1">
 
-          <div className="flex max-h-full w-full flex-col">
-            {!props?.hideToolbar && <Toolbar disabled={!!props?.disabled}
-              editor={editor}
-              toolbar={props.toolbar}
-            />}
+        <div className="flex max-h-full w-full flex-col gap-2">
+          {!props?.hideToolbar && <Toolbar disabled={!!props?.disabled}
+            editor={editor}
+            toolbar={props.toolbar}
+          />}
 
-            <EditorContent className={`relative ${props?.contentClass || ''}`}
-              editor={editor}
-            />
+          <EditorContent
+            className={`relative ${props?.contentClass || ''}`}
+            editor={editor}
+          />
 
-            {!props?.hideBubble && <BubbleMenu bubbleMenu={props?.bubbleMenu}
-              disabled={props?.disabled}
-              editor={editor}
-            />}
-          </div>
+
+          {!props?.hideBubble && <BubbleMenu bubbleMenu={props?.bubbleMenu}
+            disabled={props?.disabled}
+            editor={editor}
+          />}
         </div>
-      </TooltipProvider>
+      </div>
 
       <Toaster />
     </div>

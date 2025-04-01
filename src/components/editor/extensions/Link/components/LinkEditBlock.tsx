@@ -14,7 +14,7 @@ interface IPropsLinkEditBlock {
   onSetLink: (link: string, text?: string, openInNewTab?: boolean) => void
 }
 
-function LinkEditBlock(props: IPropsLinkEditBlock) {
+const LinkEditBlock = (props: IPropsLinkEditBlock) => {
   const { t } = useLocale();
 
   const [form, setForm] = useState({
@@ -37,7 +37,7 @@ function LinkEditBlock(props: IPropsLinkEditBlock) {
     }
   }, [props?.editor]);
 
-  function handleSubmit(event: any) {
+  const handleSubmit = (event: any) => {
     event.preventDefault();
     event.stopPropagation();
     props?.onSetLink(form.link, form.text, openInNewTab);

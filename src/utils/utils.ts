@@ -2,7 +2,7 @@ import type { Editor } from '@tiptap/core';
 
 import type { NameValueOption } from '@/types/types';
 
-export function clamp(val: number, min: number, max: number) {
+export const clamp = (val: number, min: number, max: number) => {
   if (val < min) {
     return min;
   }
@@ -20,7 +20,7 @@ export const isBoolean = (value: unknown): value is boolean => typeof value === 
 
 export const isFunction = (value: unknown): boolean => typeof value === 'function';
 
-export function getCssUnitWithDefault(value?: string | number, defaultUnit = 'px') {
+export const getCssUnitWithDefault = (value?: string | number, defaultUnit = 'px') => {
   if (!value)
     return value;
 
@@ -40,7 +40,7 @@ export function getCssUnitWithDefault(value?: string | number, defaultUnit = 'px
  * @param {string} name - The name of the extension method.
  * @returns {boolean} - Returns true if the specified extension method is present, otherwise returns false.
  */
-export function hasExtension(editor: Editor, name: string): boolean {
+export const hasExtension = (editor: Editor, name: string): boolean => {
   if (!editor) {
     return false;
   }
@@ -61,7 +61,7 @@ export function hasExtension(editor: Editor, name: string): boolean {
 /**
  * Normalizes an array of strings or objects to an array of objects with 'value' and 'name' properties.
  */
-export function ensureNameValueOptions(arr: (string | NameValueOption)[]) {
+export const ensureNameValueOptions = (arr: (string | NameValueOption)[]) => {
   return arr.map((item) => {
     if (isString(item)) {
       return { value: item, name: item };

@@ -35,15 +35,15 @@ interface TextNodesWithPosition {
 
 const updateView = (state: EditorState, dispatch: any) => dispatch(state.tr);
 
-function regex(s: string, disableRegex: boolean, caseSensitive: boolean): RegExp {
+const regex = (s: string, disableRegex: boolean, caseSensitive: boolean): RegExp => {
   return RegExp(disableRegex ? s.replace(/[$()*+./?[\\\]^{|}-]/g, String.raw`\$&`) : s, caseSensitive ? 'gu' : 'gui');
 }
 
-function processSearches(
+const processSearches = (
   doc: any,
   searchTerm: RegExp,
   searchResultClass: string,
-): { decorationsToReturn: any[], results: Result[] } {
+): { decorationsToReturn: any[], results: Result[] } => {
   const decorations: Decoration[] = [];
   let textNodesWithPosition: TextNodesWithPosition[] = [];
   const results: Result[] = [];
@@ -101,7 +101,7 @@ function processSearches(
   };
 }
 
-function replace(replaceTerm: string, results: Result[], { state, dispatch }: any) {
+const replace = (replaceTerm: string, results: Result[], { state, dispatch }: any) => {
   const firstResult = results[0];
 
   if (!firstResult)
@@ -113,7 +113,7 @@ function replace(replaceTerm: string, results: Result[], { state, dispatch }: an
     dispatch(state.tr.insertText(replaceTerm, from, to));
 }
 
-function rebaseNextResult(replaceTerm: string, index: number, lastOffset: number, results: Result[]): [number, Result[]] | null {
+const rebaseNextResult = (replaceTerm: string, index: number, lastOffset: number, results: Result[]): [number, Result[]] | null => {
   const nextIndex = index + 1;
 
   if (!results[nextIndex])
@@ -133,7 +133,7 @@ function rebaseNextResult(replaceTerm: string, index: number, lastOffset: number
   return [offset, results];
 }
 
-function replaceAll(replaceTerm: string, results: Result[], { tr, dispatch }: any) {
+const replaceAll = (replaceTerm: string, results: Result[], { tr, dispatch }: any) => {
   let offset = 0;
 
   let ourResults = results.slice();
@@ -159,7 +159,7 @@ function replaceAll(replaceTerm: string, results: Result[], { tr, dispatch }: an
   return true;
 }
 
-function gotoSearchResult({ view, tr, searchResults, searchResultCurrentClass, gotoIndex }: any) {
+const gotoSearchResult = ({ view, tr, searchResults, searchResultCurrentClass, gotoIndex }: any) => {
   const result = searchResults[gotoIndex];
 
   if (result) {

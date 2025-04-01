@@ -55,7 +55,6 @@ export const Emoji = Node.create({
             isActive: () => false,
             disabled: false,
             icon: 'EmojiIcon',
-            tooltip: t('editor.emoji.tooltip'),
           },
         };
       },

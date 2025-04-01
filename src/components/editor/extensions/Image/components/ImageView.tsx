@@ -21,7 +21,7 @@ const ResizeDirection = {
   BOTTOM_RIGHT: 'br',
 };
 
-function ImageView(props: any) {
+const ImageView = (props: any) => {
   const [maxSize, setMaxSize] = useState<Size>({
     width: IMAGE_MAX_SIZE,
     height: IMAGE_MAX_SIZE,
@@ -83,7 +83,7 @@ function ImageView(props: any) {
     return { width: width === '100%' ? width : undefined };
   }, [imgAttrs]);
 
-  function onImageLoad(e: Record<string, any>) {
+  const onImageLoad = (e: Record<string, any>) => {
     setOriginalSize({
       width: e.target.width,
       height: e.target.height,
@@ -91,7 +91,7 @@ function ImageView(props: any) {
   }
 
   // https://github.com/scrumpy/tiptap/issues/361#issuecomment-540299541
-  function selectImage() {
+  const selectImage = () => {
     const { editor, getPos } = props;
     editor.commands.setNodeSelection(getPos());
   }
@@ -110,7 +110,7 @@ function ImageView(props: any) {
     [props?.editor],
   );
 
-  function onMouseDown(e: MouseEvent, dir: string) {
+  const onMouseDown = (e: MouseEvent, dir: string) => {
     e.preventDefault();
     e.stopPropagation();
 

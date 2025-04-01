@@ -48,11 +48,11 @@ const ActionButton = React.forwardRef<HTMLButtonElement, Partial<ActionButtonPro
   (props, ref) => {
     const {
       icon = undefined,
-      // title = undefined,
+      title = undefined,
       tooltip = undefined,
       disabled = false,
       customClass = '',
-      // color = undefined,
+      color = undefined,
       loading = undefined,
       shortcutKeys = undefined,
       tooltipOptions = {},
@@ -68,14 +68,12 @@ const ActionButton = React.forwardRef<HTMLButtonElement, Partial<ActionButtonPro
     const Comp = asChild ? Slot : Toggle;
 
     return (
-      <Tooltip>
-        <TooltipTrigger asChild>
           <Comp
             data-state={isActive?.() ? 'on' : 'off'}
             onClick={action}
             ref={ref}
             size="sm"
-            className={cn('w-[32px] h-[32px]', customClass)}
+            className={cn('w-[25px] h-[25px]', customClass)}
             // pressed={isActive?.() || false}
             disabled={disabled}
             {...(rest as Omit<typeof rest, 'loading'>)}
@@ -83,22 +81,6 @@ const ActionButton = React.forwardRef<HTMLButtonElement, Partial<ActionButtonPro
             {Icon && <Icon className="size-4" />}
             {children}
           </Comp>
-        </TooltipTrigger>
-
-        {tooltip && (
-          <TooltipContent {...tooltipOptions}>
-            <div className="flex max-w-24 flex-col items-center text-center">
-              <div>
-                {tooltip}
-              </div>
-
-              {!!shortcutKeys?.length && <span>
-                {getShortcutKeys(shortcutKeys)}
-              </span>}
-            </div>
-          </TooltipContent>
-        )}
-      </Tooltip>
     );
   },
 );
