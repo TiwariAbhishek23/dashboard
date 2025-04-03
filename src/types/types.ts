@@ -54,6 +54,11 @@ export interface GeneralOptions<T> {
   toolbar?: boolean
 }
 
+export interface PluginOptions<T> {
+  /** Button view function */
+  button: ButtonView<T>
+}
+
 /**
  * Represents the props for the ButtonView component.
  */

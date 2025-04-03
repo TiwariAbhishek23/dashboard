@@ -4,6 +4,7 @@ import { Bold as TiptapBold } from '@tiptap/extension-bold';
 import { ActionButton } from '@/components/ui/ActionButton';
 import type { GeneralOptions } from '@/types/types';
 
+
 export interface BoldOptions extends TiptapImageOptions, GeneralOptions<BoldOptions> {}
 
 export const Bold = TiptapBold.extend<BoldOptions>({

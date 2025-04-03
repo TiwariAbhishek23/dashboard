@@ -3,6 +3,7 @@
 import { useCallback, useState } from 'react'
 
 import EditorFrame from '@/components/ui/EditorFrame'
+import ClipboardButton  from './plugins/Clipboard/button';
 
 import {
   BaseKit,
@@ -125,7 +126,7 @@ const Editor = () => {
         dark={theme === 'dark'}
         disabled={disable}
       />
-      {/* {typeof content === 'string' && (
+      {typeof content === 'string' && (
         <textarea
           style={{
             marginTop: 20,
@@ -134,7 +135,7 @@ const Editor = () => {
           readOnly
           value={content}
         />
-      )} */}
+      )}
     </div>
 
   )

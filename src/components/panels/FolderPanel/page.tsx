@@ -11,6 +11,7 @@ import {
     Search,
     X,
     ChevronLeft,
+    PanelRightClose,
     Trash2,
 } from "lucide-react";
 
@@ -146,10 +147,10 @@ export default function FolderPanel() {
                                     </div>
                                 )}
                                 <div className="flex space-x-3">
-                                    <FilePlus2Icon className="cursor-pointer w-4 h-4" onClick={() => toggleForm("file")} />
-                                    <FolderPlus className="cursor-pointer w-4 h-4" onClick={() => toggleForm("folder")} />
-                                    <Search className="cursor-pointer w-4 h-4" onClick={() => setIsSearching(true)} />
-                                    <ChevronLeft className="w-4 h-4 cursor-pointer" onClick={toggleCollapse} />
+                                    <FilePlus2Icon className="cursor-pointer w-5 h-5" onClick={() => toggleForm("file")} />
+                                    <FolderPlus className="cursor-pointer w-5 h-5" onClick={() => toggleForm("folder")} />
+                                    <Search className="cursor-pointer w-5 h-5" onClick={() => setIsSearching(true)} />
+                                    <PanelRightClose className="w-5 h-5 cursor-pointer rotate-180" onClick={toggleCollapse} />
                                 </div>
                             </>
                         )}
@@ -159,7 +160,7 @@ export default function FolderPanel() {
                     <div className="flex-1 overflow-y-auto space-y-2">
                         {filteredStructure.map((folder : string, index : number) => (
                             <div key={index}>
-                                <div className="flex items-center justify-between p-2 hover:bg-gray-900 rounded group">
+                                <div className="flex items-center justify-between p-2 hover:bg-gray-100 rounded-md group">
                                     <div
                                         className="flex items-center gap-2 cursor-pointer flex-1"
                                         onClick={() => toggleFolder(folder.foldername)}
@@ -178,7 +179,7 @@ export default function FolderPanel() {
                                         {folder.snippets.map((snippet : string, idx : string) => (
                                             <div
                                                 key={idx}
-                                                className={`flex items-center justify-between p-2 rounded group ${activeFile === snippet ? "bg-gray-800" : "hover:bg-gray-900"
+                                                className={`flex items-center justify-between p-2 rounded group ${activeFile === snippet ? "bg-gray-800" : "hover:bg-gray-100"
                                                     }`}
                                             >
                                                 <div

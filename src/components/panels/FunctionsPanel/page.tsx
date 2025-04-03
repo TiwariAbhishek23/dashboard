@@ -1,9 +1,11 @@
 "use client";
+
 import React, { JSX, useState } from "react";
+
 import {
     AlertCircle, AlertTriangle, Calendar, Check, CheckCircle, Code, FormInput,
-    List, Minus, MousePointer, Plus, Repeat, Search, Shuffle, Square, StickyNote,
-    ToggleRight, ChevronLeft, Star, Zap, PenTool, Bell, Clock, Sliders
+    List, Drill, MousePointer, Split, Repeat, Search, Shuffle, Square, StickyNote,
+    ToggleRight, ChevronLeft, Star, Zap, PenTool, Bell, Clock, Sliders, PanelRightClose,ClipboardList,TextCursor, TextCursorInput, CalendarCog, MousePointerClick, Keyboard, Image, Timer, User, Mail, Phone, MapPin
 } from "lucide-react";
 
 // Type definitions
@@ -31,14 +33,51 @@ const sidebarCategories: Category[] = [
         ],
     },
     {
-        icon: <Zap className="w-4 h-4 text-black" />,
-        title: "Basic",
+        icon: <Drill className="w-4 h-4 text-black" />,
+        title: "Tools",
         items: [
-            { icon: <Plus className="w-4 h-4 text-black" />, name: "Add" },
-            { icon: <Minus className="w-4 h-4 text-black" />, name: "Subtract" },
-            { icon: <Square className="w-4 h-4 text-black" />, name: "Square" },
-            { icon: <Shuffle className="w-4 h-4 text-black" />, name: "Randomize" },
-            { icon: <Repeat className="w-4 h-4 text-black" />, name: "Repeat" },
+            { icon: <ClipboardList className="w-4 h-4 text-black" />, name: "Clipboard" },
+            { icon: <TextCursor className="w-4 h-4 text-black" />, name: "Cursor" },
+            { icon: <Shuffle className="w-4 h-4 text-black" />, name: "Random Value Generator" },
+            { icon: <MousePointerClick className="w-4 h-4 text-black" />, name: "Mouse Click" },
+            { icon: <Keyboard className="w-4 h-4 text-black" />, name: "Button Press" },
+            { icon: <Timer className="w-4 h-4 text-black" />, name: "Delay Timer" },
+        ],
+    },
+    {
+        icon: <User className="w-4 h-4 text-black" />,
+        title: "User Data",
+        items: [
+            { icon: <User className="w-4 h-4 text-black" />, name: "Name" },
+            { icon: <User className="w-4 h-4 text-black" />, name: "First Name" },
+            { icon: <User className="w-4 h-4 text-black" />, name: "Last Name" },
+            { icon: <Mail className="w-4 h-4 text-black" />, name: "Email" },
+            { icon: <Phone className="w-4 h-4 text-black" />, name: "Phone" },
+            { icon: <MapPin className="w-4 h-4 text-black" />, name: "Address" },
+
+        ],
+    },
+    {
+        icon: <FormInput className="w-4 h-4 text-black" />,
+        title: "Forms",
+        items: [
+            { icon: <FormInput className="w-4 h-4 text-black" />, name: "Text Input" },
+            { icon: <TextCursorInput className="w-4 h-4 text-black" />, name: "Paragraph" },
+            { icon: <List className="w-4 h-4 text-black" />, name: "Dropdown Menu" },
+            { icon: <ToggleRight className="w-4 h-4 text-black" />, name: "Switch Toggle" },
+            { icon: <CalendarCog className="w-4 h-4 text-black" />, name: "Date Form" },
+            { icon: <Image className="w-4 h-4 text-black" />, name: "Image Form" },
+        ],
+    },
+    {
+        icon: <Code className="w-4 h-4 text-black" />,
+        title: "Plugins",
+        items: [
+            { icon: <Repeat className="w-4 h-4 text-black" />, name: "Loop" },
+            { icon: <Split className="w-4 h-4 text-black" />, name: "Condition" },
+
+            { icon: <PenTool className="w-4 h-4 text-black" />, name: "Custom Script" },
+            { icon: <Zap className="w-4 h-4 text-black" />, name: "" },
         ],
     },
     {
@@ -51,29 +90,6 @@ const sidebarCategories: Category[] = [
             { icon: <Clock className="w-4 h-4 text-black" />, name: "Time Picker" },
             { icon: <Calendar className="w-4 h-4 text-black" />, name: "Year Selector" },
             { icon: <Calendar className="w-4 h-4 text-black" />, name: "Week Planner" },
-        ],
-    },
-    {
-        icon: <FormInput className="w-4 h-4 text-black" />,
-        title: "Forms",
-        items: [
-            { icon: <FormInput className="w-4 h-4 text-black" />, name: "Text Input" },
-            { icon: <FormInput className="w-4 h-4 text-black" />, name: "Paragraph Field" },
-            { icon: <List className="w-4 h-4 text-black" />, name: "Dropdown Menu" },
-            { icon: <ToggleRight className="w-4 h-4 text-black" />, name: "Switch Toggle" },
-            { icon: <CheckCircle className="w-4 h-4 text-black" />, name: "Checkbox" },
-            { icon: <Sliders className="w-4 h-4 text-black" />, name: "Range Slider" },
-        ],
-    },
-    {
-        icon: <Code className="w-4 h-4 text-black" />,
-        title: "Plugins",
-        items: [
-            { icon: <Repeat className="w-4 h-4 text-black" />, name: "Loop Function" },
-            { icon: <Code className="w-4 h-4 text-black" />, name: "Conditional Block" },
-            { icon: <Shuffle className="w-4 h-4 text-black" />, name: "Random Generator" },
-            { icon: <PenTool className="w-4 h-4 text-black" />, name: "Custom Script" },
-            { icon: <Zap className="w-4 h-4 text-black" />, name: "API Connector" },
         ],
     },
     {
@@ -134,19 +150,19 @@ function RightSidebar() {
                     {/* Sticky Search Panel */}
                     <div className="sticky top-0 z-20 bg-white/90 backdrop-blur-md pb-4 border-b border-black/20">
                         <div className="flex justify-between items-center">
+                            <PanelRightClose scale={5}
+                                className="m-5 text-slate-400 cursor-pointer ml-3 hover:text-black/70 transition-all duration-200 ease-in-out transform"
+                                onClick={toggleCollapse}
+                            />
                             <div className="relative flex-1">
                                 <Search className="absolute left-3 top-2.5 w-4 h-4 text-black/80" />
                                 <input
-                                    className="pl-10 p-2 w-full border border-black/20 rounded-md text-black focus:ring-2 focus:ring-black/30 placeholder:text-black/50 bg-white/50 transition-all duration-200 ease-in-out transform hover:scale-[1.02]"
+                                    className="pl-10 p-2 w-full border border-black/20 rounded-md text-black focus:ring-2 focus:ring-black/30 placeholder:text-black/50 bg-white/50 transition-all duration-200 ease-in-out transform"
                                     onChange={(e) => setSearch(e.target.value)}
                                     placeholder="Search tools..."
                                     type="text"
                                 />
                             </div>
-                            <ChevronLeft
-                                className="w-5 h-5 rotate-180 text-black cursor-pointer ml-3 hover:text-black/70 transition-all duration-200 ease-in-out transform hover:scale-110"
-                                onClick={toggleCollapse}
-                            />
                         </div>
                     </div>
 
