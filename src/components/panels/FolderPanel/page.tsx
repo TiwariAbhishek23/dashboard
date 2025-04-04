@@ -107,12 +107,12 @@ export default function FolderPanel() {
     })).filter((folder) => folder.snippets.length > 0 || folder.foldername.toLowerCase().includes(searchQuery.toLowerCase()));
 
     return (
-        <div className="fixed top-0 left-0 h-screen flex w-1/3">
+        <div className="left-0 h-screen flex ">
             {/* Collapsed State */}
             {isCollapsed && (
                 <button
                     onClick={toggleCollapse}
-                    className="p-2 rounded-r-lg shadow-lg h-4/5 top-2 left-0 mt-20 hover:bg-gray-200 transition-all cursor-pointer"
+                    className="p-2 rounded-r-lg bg-slate-100 shadow-lg top-2 left-0 mt-20 hover:bg-gray-200 transition-all cursor-pointer"
                 >
                     <ChevronLeft size={24} className="rotate-180" />
                 </button>
@@ -120,7 +120,7 @@ export default function FolderPanel() {
 
             {/* Expanded State */}
             {!isCollapsed && (
-                <div className="w-60 mt-[100px] h-full border-r border-gray-300 rounded-r-xl p-4 flex flex-col shadow-lg transition-all duration-300">
+                <div className="w-60 h-full border-r border-gray-300 rounded-r-xl p-4 flex flex-col shadow-lg transition-all duration-300">
                     {/* Header */}
                     <div className="flex justify-between items-center border-b border-gray-700 pb-3 mb-4">
                         {isSearching ? (

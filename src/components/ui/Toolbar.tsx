@@ -68,7 +68,7 @@ const Toolbar = ({ editor, disabled, toolbar }: ToolbarComponentProps) => {
   const containerDom = (innerContent: React.ReactNode) => {
     return (
       <div
-      className="flex items-center select-none sticky top-0 left-0 z-50 scrollbar-hide w-full justify-between overflow-x-auto rounded-t-lg border-b border-b-border bg-background/95 backdrop-blur-sm supports-backdrop-blur:bg-background/60 [&::-webkit-scrollbar]:hidden"
+      className="flex items-center select-none sticky z-50 scrollbar-hide w-full justify-between overflow-x-auto rounded-t-lg border-b border-b-border bg-background/95 backdrop-blur-sm supports-backdrop-blur:bg-background/60 [&::-webkit-scrollbar]:hidden"
         style={{
           pointerEvents: disabled ? 'none' : 'auto',
           opacity: disabled ? 0.5 : 1,

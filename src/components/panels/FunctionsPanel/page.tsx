@@ -3,8 +3,8 @@
 import React, { JSX, useState } from "react";
 
 import {
-    AlertCircle, AlertTriangle, Calendar, Check, CheckCircle, Code, FormInput,
-    List, Drill, MousePointer, Split, Repeat, Search, Shuffle, Square, StickyNote,
+    AlertCircle, NotebookPen, Calendar, SquareSigma, CheckCircle, Code, FormInput,
+    List, Drill, Ban, Split, Repeat, Search, Shuffle, Square, Globe,
     ToggleRight, ChevronLeft, Star, Zap, PenTool, Bell, Clock, Sliders, PanelRightClose,ClipboardList,TextCursor, TextCursorInput, CalendarCog, MousePointerClick, Keyboard, Image, Timer, User, Mail, Phone, MapPin
 } from "lucide-react";
 
@@ -25,12 +25,7 @@ const sidebarCategories: Category[] = [
     {
         icon: <Star className="w-4 h-4 text-black" />,
         title: "Most Frequently Used",
-        items: [
-            { icon: <Calendar className="w-4 h-4 text-black" />, name: "Date picker" },
-            { icon: <FormInput className="w-4 h-4 text-black" />, name: "Input Form" },
-            { icon: <Check className="w-4 h-4 text-black" />, name: "Check list" },
-            { icon: <ToggleRight className="w-4 h-4 text-black" />, name: "Toggle button" },
-        ],
+        items: [],
     },
     {
         icon: <Drill className="w-4 h-4 text-black" />,
@@ -76,8 +71,9 @@ const sidebarCategories: Category[] = [
             { icon: <Repeat className="w-4 h-4 text-black" />, name: "Loop" },
             { icon: <Split className="w-4 h-4 text-black" />, name: "Condition" },
 
-            { icon: <PenTool className="w-4 h-4 text-black" />, name: "Custom Script" },
-            { icon: <Zap className="w-4 h-4 text-black" />, name: "" },
+            { icon: <PenTool className="w-4 h-4 text-black" />, name: "Variables" },
+            { icon: <Globe className="w-4 h-4 text-black" />, name: "Send Data" },
+            { icon: <Zap className="w-4 h-4 text-black" />, name: "Receive Data" },
         ],
     },
     {
@@ -94,25 +90,32 @@ const sidebarCategories: Category[] = [
     },
     {
         icon: <Bell className="w-4 h-4 text-black" />,
-        title: "Notifications",
+        title: "Messages",
         items: [
-            { icon: <AlertCircle className="w-4 h-4 text-black" />, name: "Error Alert" },
-            { icon: <CheckCircle className="w-4 h-4 text-black" />, name: "Success Message" },
-            { icon: <AlertTriangle className="w-4 h-4 text-black" />, name: "Warning Popup" },
-            { icon: <Bell className="w-4 h-4 text-black" />, name: "Info Toast" },
+            { icon: <Ban className="w-4 h-4 text-black" />, name: "Error Alert" },
+            { icon: <NotebookPen className="w-4 h-4 text-black" />, name: "Notes" },
+
         ],
     },
     {
-        icon: <MousePointer className="w-4 h-4 text-black" />,
-        title: "Others",
+        icon: <SquareSigma className="w-4 h-4 text-black" />,
+        title: "Math",
         items: [
-            { icon: <StickyNote className="w-4 h-4 text-black" />, name: "Sticky Note" },
-            { icon: <MousePointer className="w-4 h-4 text-black" />, name: "Custom Cursor" },
-            { icon: <PenTool className="w-4 h-4 text-black" />, name: "Drawing Tool" },
-            { icon: <Square className="w-4 h-4 text-black" />, name: "Divider" },
-            { icon: <List className="w-4 h-4 text-black" />, name: "Bullet List" },
-            { icon: <Clock className="w-4 h-4 text-black" />, name: "Timer" },
-            { icon: <Sliders className="w-4 h-4 text-black" />, name: "Adjuster" },
+            { icon: <Square className="w-4 h-4 text-black" />, name: "Square Root" },
+            { icon: <Square className="w-4 h-4 text-black" />, name: "Square" },
+            { icon: <Square className="w-4 h-4 text-black" />, name: "Cube" },
+            { icon: <Square className="w-4 h-4 text-black" />, name: "Cube Root" },
+            { icon: <Square className="w-4 h-4 text-black" />, name: "Power" },
+            { icon: <Square className="w-4 h-4 text-black" />, name: "Logarithm" },
+            { icon: <Square className="w-4 h-4 text-black" />, name: "Factorial" },
+            { icon: <Square className="w-4 h-4 text-black" />, name: "Pi" },
+            { icon: <Square className="w-4 h-4 text-black" />, name: "Euler's Number" },
+            { icon: <Square className="w-4 h-4 text-black" />, name: "Golden Ratio" },
+            { icon: <Square className="w-4 h-4 text-black" />, name: "Fibonacci Sequence" },
+            { icon: <Square className="w-4 h-4 text-black" />, name: "Prime Number" },
+            { icon: <Square className="w-4 h-4 text-black" />, name: "Random Number" },
+            { icon: <Square className="w-4 h-4 text-black" />, name: "Arithmetic Operations" },
+            { icon: <Square className="w-4 h-4 text-black" />, name: "Trigonometric Functions" },
         ],
     },
 ];
@@ -133,12 +136,12 @@ function RightSidebar() {
     );
 
     return (
-        <div className="fixed top-0 right-0 h-screen flex">
+        <div className="top-0 right-0 h-screen flex">
             {/* Collapsed State */}
             {isCollapsed && (
                 <button
                     onClick={toggleCollapse}
-                    className="p-2 mt-20 h-[80%] rounded-l-lg bg-white/80 backdrop-blur-md shadow-lg hover:bg-black/10 transition-all duration-300 ease-in-out"
+                    className="p-2 mt-20 bg-amber-300 h-3/5 rounded-l-lg backdrop-blur-md shadow-lg hover:bg-black/10 transition-all duration-300 ease-in-out"
                 >
                     <ChevronLeft size={24} className="text-black" />
                 </button>
@@ -146,9 +149,9 @@ function RightSidebar() {
 
             {/* Expanded State */}
             {!isCollapsed && (
-                <aside className="w-72 bg-white/80 backdrop-blur-md mt-[80px] h-[calc(100vh-80px)] border-l border-black/20 rounded-l-xl p-4 flex flex-col shadow-xl transition-all duration-300">
+                <aside className="w-72 h-full border-l border-black/20 p-4 flex flex-col shadow-xl">
                     {/* Sticky Search Panel */}
-                    <div className="sticky top-0 z-20 bg-white/90 backdrop-blur-md pb-4 border-b border-black/20">
+                    <div className="sticky top-0 bg-white/90 rounded-md backdrop-blur-md border-b border-black/20">
                         <div className="flex justify-between items-center">
                             <PanelRightClose scale={5}
                                 className="m-5 text-slate-400 cursor-pointer ml-3 hover:text-black/70 transition-all duration-200 ease-in-out transform"
@@ -167,11 +170,11 @@ function RightSidebar() {
                     </div>
 
                     {/* Scrollable Content */}
-                    <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-black/30 scrollbar-track-transparent pt-4">
+                    <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-black/30 scrollbar-track-transparent">
                         {filteredCategories.map((category, index) => (
                             <div key={index} className="mb-6">
                                 {/* Sticky Section Header */}
-                                <div className="sticky top-0.5 z-10 bg-white/95 backdrop-blur-md py-2 border-b border-black/10">
+                                <div className="sticky top-0.5 backdrop-blur-mdborder-b border-black/10 px-2 py-3 rounded-md bg-slate-100">
                                     <div className="flex items-center gap-2 text-black font-semibold text-sm">
                                         {category.icon}
                                         <span>{category.title}</span>

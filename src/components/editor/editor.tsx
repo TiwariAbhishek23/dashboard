@@ -116,7 +116,7 @@ const Editor = () => {
   )
   return (
     <div
-      className="flex flex-col w-2/3 max-w-screen-lg gap-[24px] my-0"
+      className="flex flex-col flex-grow h-full overflow-hidden"
     >
       <EditorFrame
         output="html"
@@ -126,7 +126,7 @@ const Editor = () => {
         dark={theme === 'dark'}
         disabled={disable}
       />
-      {typeof content === 'string' && (
+      {/* {typeof content === 'string' && (
         <textarea
           style={{
             marginTop: 20,
@@ -135,7 +135,7 @@ const Editor = () => {
           readOnly
           value={content}
         />
-      )}
+      )} */}
     </div>
 
   )

@@ -17,8 +17,6 @@ import type { BubbleMenuProps, ToolbarProps } from '@/types/types';
 import { removeCSS, updateCSS } from '@/utils/dynamicCSS';
 import { hasExtension } from '@/utils/utils';
 
-import ClipboardButton from '@/components/editor/plugins/Clipboard/button';
-
 /**
  * Interface for EditorFrame component props
  */
@@ -167,16 +165,15 @@ const EditorFrame = (props: EditorFrameProps, ref: React.ForwardedRef<{ editor: 
 
   return (
     <div className="editor">
-      <div className="overflow-hidden rounded-[0.5rem] shadow outline-1">
-      <ClipboardButton editor={editor} />
-        <div className="flex max-h-full w-full flex-col gap-2">
+      <div className="overflow-hidden rounded-md shadow">
+        <div className="flex w-full flex-col h-full">
           {!props?.hideToolbar && <Toolbar disabled={!!props?.disabled}
             editor={editor}
             toolbar={props.toolbar}
           />}
 
           <EditorContent
-            className={`relative ${props?.contentClass || ''}`}
+            className={`flex-grow  ${props?.contentClass || ''}`}
             editor={editor}
           />
 
