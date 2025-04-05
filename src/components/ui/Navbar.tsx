@@ -27,7 +27,7 @@ const Navbar = () => {
     }, []);
 
     return (
-        <header className="container sticky top-0 w-full py-1.5 ">
+        <header className="container sticky top-0 w-full py-1.5">
             <div className="h-14 shadow-sm rounded-tl-pilled rounded-tr-pilled lg:rounded-pilled px-[1.125rem] py-3 flex items-center border-2 border-gray-200 bg-white/30 dark:bg-gray-900/30 dark:border-gray-800/50 backdrop-blur-md transition-all duration-200 rounded-2xl mx-2">
 
                 {/* Left Side - Logo and Navigation */}
