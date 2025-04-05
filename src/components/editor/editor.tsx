@@ -116,7 +116,7 @@ const Editor = () => {
   )
   return (
     <div
-      className="flex flex-col flex-grow h-full overflow-hidden"
+      className="flex flex-col flex-grow h-screen overflow-hidden border-2 border-gray-200 rounded-lg shadow-lg"
     >
       <EditorFrame
         output="html"

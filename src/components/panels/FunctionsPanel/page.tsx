@@ -174,7 +174,7 @@ function RightSidebar() {
                         {filteredCategories.map((category, index) => (
                             <div key={index} className="mb-6">
                                 {/* Sticky Section Header */}
-                                <div className="sticky top-0.5 backdrop-blur-mdborder-b border-black/10 px-2 py-3 rounded-md bg-slate-100">
+                                <div className="sticky top-0.5 z-20 backdrop-blur-mdborder-b border-black/10 px-2 py-3 rounded-md bg-slate-100">
                                     <div className="flex items-center gap-2 text-black font-semibold text-sm">
                                         {category.icon}
                                         <span>{category.title}</span>
