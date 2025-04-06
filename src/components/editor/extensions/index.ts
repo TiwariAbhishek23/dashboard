@@ -1,8 +1,8 @@
 export { Bold } from './Bold';
 export type { BoldOptions } from './Bold';
 
-export { AI } from './AI';
-export type { AIOptions } from './AI';
+// export { AI } from './AI';
+// export type { AIOptions } from './AI';
 
 export { Italic } from './Italic';
 export type { ItalicOptions } from './Italic';

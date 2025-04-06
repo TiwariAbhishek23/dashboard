@@ -199,3 +199,19 @@ export const BUBBLE_TEXT_LIST = [
   'subAndSuperScript',
   'textAlign',
 ];
+
+/** Special Characters */
+export const SPECIAL_CHARACTERS = [
+  '/',
+  '#',
+  '@',
+  '$',
+  '%',
+  '^',
+  '&',
+  '*',
+  '-',
+  '_',
+  '=',
+  '+',
+];
