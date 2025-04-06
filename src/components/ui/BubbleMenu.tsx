@@ -2,7 +2,7 @@
 
 import type { Editor } from '@tiptap/core';
 
-import { BubbleMenuImage, BubbleMenuLink, BubbleMenuText, TableBubbleMenu, ContentMenu } from '@/components/ui';
+import { BubbleMenuImage, BubbleMenuLink, BubbleMenuText, TableBubbleMenu } from '@/components/ui';
 import type { BubbleMenuProps as BubbleMenuPropsType } from '@/types/types';
 
 export interface BubbleMenuComponentProps {
@@ -26,7 +26,6 @@ export function BubbleMenu({ editor, disabled, bubbleMenu }: BubbleMenuComponent
     extensionsNames.includes('table') && !bubbleMenu?.tableConfig?.hidden ? <TableBubbleMenu key="table" editor={editor} /> : null,
     extensionsNames.includes('link') && !bubbleMenu?.linkConfig?.hidden ? <BubbleMenuLink key="link" editor={editor} disabled={disabled} /> : null,
     extensionsNames.includes('image') && !bubbleMenu?.imageConfig?.hidden ? <BubbleMenuImage key="image" editor={editor} disabled={disabled} /> : null,
-    !bubbleMenu?.floatingMenuConfig?.hidden ? <ContentMenu key="content" editor={editor} disabled={disabled} /> : null,
     !bubbleMenu?.textConfig?.hidden ? <BubbleMenuText key="text" editor={editor} disabled={disabled} /> : null,
   ];
 

@@ -58,6 +58,7 @@ export { BaseKit } from './BaseKit';
 export type { BaseKitOptions } from './BaseKit';
 
 export { SubAndSuperScript } from './Subscript';
+export type { SubAndSuperScriptOptions } from './Subscript';
 
 export { Indent } from './Indent';
 export type { IndentOptions } from './Indent';

@@ -14,7 +14,6 @@ export * from './Chart';
 export * from './Checkbox'
 export * from './ColorPicker';
 export * from './Command';
-export * from './ContentMenu';
 export * from './ContextMenu';
 export * from './BubbleMenu';
 export * from './BubbleMenuLink';
