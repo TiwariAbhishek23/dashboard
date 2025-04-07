@@ -1,0 +1,21 @@
+.columns {
+    display: flex;
+    width: 100%;
+    gap: 8px;
+    margin-top: 0.75em;
+}
+
+.columns .column {
+    min-width: 0;
+    padding: 12px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #e5e7eb; /* hsl(var(--border)), assuming Tailwind's default border color */
+    border-radius: 2px;
+    flex: 1 1 0%;
+    box-sizing: border-box;
+}
+
+.columns .column p:first-of-type {
+    margin-top: 0;
+}

@@ -1,0 +1,438 @@
+/* editor.css */
+.editor .ProseMirror {
+    caret-color: #000; /* caret-black */
+    outline: none; /* outline-0 */
+    padding-right: 2rem; /* pr-8 */
+    padding-left: 5rem; /* pl-20 */
+    padding-top: 4rem; /* py-16 */
+    padding-bottom: 4rem; /* py-16 */
+    z-index: 0; /* z-0 */
+    min-height: 180px;
+    padding: 32px 80px;
+}
+
+@media (min-width: 1024px) {
+    .editor .ProseMirror {
+        padding-left: 2rem; /* lg:pl-8 */
+        padding-right: 2rem; /* lg:pr-8 */
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .editor .ProseMirror {
+        caret-color: #fff; /* dark:caret-white */
+    }
+}
+
+.editor .ProseMirror .img-placeholder {
+    width: fit-content;
+    position: relative;
+    backdrop-filter: blur(4px); /* backdrop-blur-sm */
+    background-color: rgba(255, 255, 255, 0.3); /* bg-white/30 */
+}
+
+.editor .ProseMirror .img-placeholder:before {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 24px;
+    height: 24px;
+    margin: -12px 0 0 -12px;
+    animation: spin 1s linear infinite; /* animate-spin */
+    border: 3px solid currentColor; /* border-current */
+    border-top-color: transparent; /* border-t-transparent */
+    border-radius: 9999px; /* rounded-full */
+    display: inline-block; /* inline-block */
+}
+
+.editor .ProseMirror .tableWrapper {
+    margin: 1em 0;
+    overflow-x: auto; /* overflow-x-auto */
+}
+
+.editor .ProseMirror .tableWrapper table {
+    overflow: hidden;
+    display: table;
+    width: 100%;
+}
+
+.editor .ProseMirror .tableWrapper table .column-resize-handle {
+    bottom: -2px; /* bottom-[-2px] */
+    position: absolute; /* absolute */
+    right: -2px; /* right-[-2px] */
+    top: 0; /* top-0 */
+    width: 0.25rem; /* w-1 */
+    z-index: 10; /* z-10 */
+    pointer-events: none; /* pointer-events-none */
+    background-color: #3b82f6; /* bg-primary, assuming Tailwind's default blue */
+}
+
+.editor .ProseMirror .tableWrapper table .resize-cursor {
+    cursor: col-resize;
+}
+
+.editor .ProseMirror .tableWrapper table .selectedCell {
+    background-color: rgba(0, 0, 0, 0.05); /* bg-black/5 */
+    border: double 2px rgba(0, 0, 0, 0.2); /* border-black/20 border-double */
+}
+
+@media (prefers-color-scheme: dark) {
+    .editor .ProseMirror .tableWrapper table .selectedCell {
+        background-color: rgba(255, 255, 255, 0.1); /* dark:bg-white/10 */
+        border: double 2px rgba(255, 255, 255, 0.2); /* dark:border-white/20 */
+    }
+}
+
+.editor .ProseMirror [data-type='horizontalRule'] {
+    transition: all 0.1s ease-in-out; /* transition-all duration-100 ease-in-out */
+    cursor: pointer; /* cursor-pointer */
+}
+
+.editor
+    .ProseMirror
+    [data-type='horizontalRule'].ProseMirror-selectednode {
+    background-color: rgba(0, 0, 0, 0.05); /* bg-black/5 */
+}
+
+@media (prefers-color-scheme: dark) {
+    .editor
+        .ProseMirror
+        [data-type='horizontalRule'].ProseMirror-selectednode {
+        background-color: rgba(255, 255, 255, 0.1); /* dark:bg-white/10 */
+    }
+}
+
+.editor
+    .ProseMirror
+    [data-type='horizontalRule'].ProseMirror-selectednode
+    hr {
+    border-top-color: rgba(0, 0, 0, 0.3); /* border-t-black/30 */
+}
+
+@media (prefers-color-scheme: dark) {
+    .editor
+        .ProseMirror
+        [data-type='horizontalRule'].ProseMirror-selectednode
+        hr {
+        border-top-color: rgba(255, 255, 255, 0.3); /* dark:border-t-white/30 */
+    }
+}
+
+.editor
+    .ProseMirror
+    [data-type='horizontalRule']:hover:not(.ProseMirror-selectednode) {
+    background-color: rgba(0, 0, 0, 0.05); /* bg-black/5 */
+}
+
+@media (prefers-color-scheme: dark) {
+    .editor
+        .ProseMirror
+        [data-type='horizontalRule']:hover:not(.ProseMirror-selectednode) {
+        background-color: rgba(255, 255, 255, 0.1); /* dark:bg-white/10 */
+    }
+}
+
+.editor
+    .ProseMirror
+    :not(.dragging)
+    .ProseMirror-selectednode:not(.image-view) {
+    outline: none; /* outline-none */
+    background-color: rgba(0, 0, 0, 0.1); /* bg-black/10 */
+    box-shadow: none; /* shadow-none */
+    transition-property:
+        color, background-color, border-color; /* transition-colors */
+    transition-duration: 150ms;
+    transition-timing-function: ease-in-out;
+}
+
+@media (prefers-color-scheme: dark) {
+    .editor
+        .ProseMirror
+        :not(.dragging)
+        .ProseMirror-selectednode:not(.image-view) {
+        background-color: rgba(255, 255, 255, 0.2); /* dark:bg-white/20 */
+    }
+}
+
+.editor .ProseMirror .selection:not(.image-view),
+.editor .ProseMirror *:not(.image-view)::selection {
+    background-color: rgba(0, 0, 0, 0.1); /* bg-black/10 */
+}
+
+@media (prefers-color-scheme: dark) {
+    .editor .ProseMirror .selection:not(.image-view),
+    .editor .ProseMirror *:not(.image-view)::selection {
+        background-color: rgba(255, 255, 255, 0.2); /* dark:bg-white/20 */
+    }
+}
+
+.editor .ProseMirror .is-empty::before {
+    content: attr(data-placeholder);
+    float: left;
+    color: #adb5bd;
+    pointer-events: none;
+    width: 100%;
+    height: 0;
+}
+
+.editor .ProseMirror .columns.is-empty::before {
+    display: none !important;
+}
+
+.editor .ProseMirror .is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    color: #adb5bd;
+    pointer-events: none;
+    width: 100%;
+    height: 0;
+}
+
+.editor .ProseMirror p.is-editor-empty:first-child::before {
+    float: left;
+    height: 0;
+    color: #adb5bd;
+    pointer-events: none;
+    width: 100%;
+    content: attr(data-placeholder);
+}
+
+.editor .ProseMirror .ProseMirror-gapcursor {
+    position: relative; /* relative */
+    width: 100%; /* w-full */
+    max-width: 32rem; /* max-w-2xl */
+    margin-left: auto; /* mx-auto */
+    margin-right: auto; /* mx-auto */
+}
+
+.editor .ProseMirror .ProseMirror-gapcursor:after {
+    border-top: 1px solid rgba(0, 0, 0, 0.4); /* border-t-black/40 */
+    width: 100%; /* w-full */
+    top: -1.5em; /* top-[-1.5em] */
+    max-width: 32rem; /* max-w-2xl */
+    margin-left: auto; /* mx-auto */
+    margin-right: auto; /* mx-auto */
+    left: 0; /* left-0 */
+    right: 0; /* right-0 */
+}
+
+@media (prefers-color-scheme: dark) {
+    .editor .ProseMirror .ProseMirror-gapcursor:after {
+        border-top: 1px solid rgba(255, 255, 255, 0.4); /* dark:border-t-white/40 */
+    }
+}
+
+.editor .ProseMirror .image-view {
+    display: inline-block;
+    float: none;
+    max-width: 100%;
+    line-height: 0;
+    vertical-align: baseline;
+    user-select: none;
+}
+
+.editor .ProseMirror .image-view__body {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+    clear: both;
+    outline: 2px solid transparent;
+    transition: all 0.2s ease-in;
+}
+
+.editor .ProseMirror .image-view__body__button-wrap {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    background: rgba(38, 38, 38, 0.6);
+    border-radius: 8px;
+    z-index: 4;
+}
+
+.editor .ProseMirror .image-view__body:hover {
+    outline-color: #ffc83d;
+}
+
+.editor
+    .ProseMirror
+    .image-view__body:hover
+    .image-view__body__button-wrap {
+    display: block;
+}
+
+.editor .ProseMirror .image-view__body--focused:hover,
+.editor .ProseMirror .image-view__body--resizing:hover {
+    outline-color: #3b82f6; /* Assuming hsl(var(--primary)) is Tailwind's blue */
+}
+
+.editor .ProseMirror .image-view__body__placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+}
+
+.editor .ProseMirror .image-view__body__image {
+    margin: 0;
+    cursor: pointer !important;
+}
+
+.editor .ProseMirror .image-view__body--focused {
+    outline-color: #3b82f6 !important; /* Assuming hsl(var(--primary)) */
+}
+
+.editor .ProseMirror .image-view.focus img {
+    outline: 2px solid #3b82f6; /* outline-primary outline-2 outline */
+}
+
+.editor .ProseMirror .image-view img {
+    display: inline;
+    vertical-align: baseline;
+}
+
+.editor .ProseMirror .image-resizer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #e5e7eb !important; /* border-border, assuming Tailwind's gray */
+}
+
+.editor .ProseMirror .image-resizer__handler {
+    position: absolute;
+    z-index: 2;
+    box-sizing: border-box;
+    display: block;
+    width: 12px;
+    height: 12px;
+    border: 1px solid #fff;
+    border-radius: 2px;
+    background-color: #3b82f6; /* Assuming hsl(var(--primary)) */
+}
+
+.editor .ProseMirror .image-resizer__handler--tl {
+    top: -6px;
+    left: -6px;
+    cursor: nw-resize;
+}
+
+.editor .ProseMirror .image-resizer__handler--tr {
+    top: -6px;
+    right: -6px;
+    cursor: ne-resize;
+}
+
+.editor .ProseMirror .image-resizer__handler--bl {
+    bottom: -6px;
+    left: -6px;
+    cursor: sw-resize;
+}
+
+.editor .ProseMirror .image-resizer__handler--br {
+    right: -6px;
+    bottom: -6px;
+    cursor: se-resize;
+}
+
+.editor.dense .ProseMirror {
+    min-height: 32px;
+    padding: 6px 12px;
+}
+
+.editor.dense p {
+    padding: 0;
+    line-height: 1.2rem;
+}
+
+.editor .ProseMirror[contenteditable='true'].resize-cursor {
+    cursor: col-resize;
+}
+
+.slash-command-active {
+    background-color: #dbeafe !important; /* Assuming hsl(var(--accent)) is Tailwind's light blue */
+}
+
+[data-dui-1-3-5~='dui-tooltip-wrapper'] {
+    display: inline-block;
+    position: relative;
+}
+
+.heading-0 {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.heading-1 {
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.6;
+}
+
+.heading-2 {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1.6;
+}
+
+.heading-3 {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.6;
+}
+
+.heading-4 {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.6;
+}
+
+.heading-5 {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.6;
+}
+
+.heading-6 {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.6;
+}
+
+.tableCellActive {
+    border-radius: 2px !important;
+    transition: all 100ms ease-in-out;
+}
+
+.tableCellActive > div {
+    border: unset !important;
+}
+
+.node-tableOfContents.focus {
+    border-width: 1px;
+    border-radius: 6px;
+}
+
+div[data-twitter] > div {
+    margin: 10px auto;
+}
+
+.react-renderer.node-twitter.focus {
+    border-width: 1px;
+    border-radius: 6px;
+}
+
+/* Define the spin animation for the loading placeholder */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
