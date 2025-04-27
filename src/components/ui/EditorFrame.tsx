@@ -165,7 +165,7 @@ const EditorFrame = (props: EditorFrameProps, ref: React.ForwardedRef<{ editor: 
 
   return (
     <div className="editor">
-      <div className="overflow-hidden rounded-md shadow">
+      <div className="overflow-hidden rounded-md   shadow">
         <div className="flex w-full flex-col h-max">
           {!props?.hideToolbar && <Toolbar disabled={!!props?.disabled}
             editor={editor}

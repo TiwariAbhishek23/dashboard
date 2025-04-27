@@ -1,16 +1,99 @@
 'use client';
-import { useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import {
+  Ban, Check, Clock, Copy, Download, Edit2Icon, File, FileText,
+  Folder, HardDrive, LinkIcon, Mail, Share, Shield, Star, Trash,
+  Trash2, Upload, Users
+} from "lucide-react";
+import { useFilestructure } from "../FilestructureContext/Filestruture";
 
-import { Ban, Clock, Download, File, FileText, Folder, HardDrive, Share, Star, Trash, Trash2, Upload, UserCircle, Users } from "lucide-react";
-const FileManager = () => {
-  const [selectedFolder] = useState("My Documents");
-  const [showSharePopup, setShowSharePopup] = useState(false);
-  const [showDeletePopup, setShowDeletePopup] = useState(false);
-  const [showDisablePopup, setShowDisablePopup] = useState(false);
+type Folder = {
+  foldername: string;
+  snippets: string[];
+};
 
-  const files = [
-    "Report.pdf", "Notes.txt", "Code.js", "Invoice.docx", "Sketch.svg", "Readme.md"
-  ];
+const FileManager = ({
+  setOpenFolderName,
+  OpenFolderName,
+}: {
+  setOpenFolderName: Dispatch<SetStateAction<string>>;
+  OpenFolderName: string;
+}) => {
+  const [folderDesc, setFolderDesc] = useState("");
+  const [descSaved, setDescSaved] = useState(false);
+  const [newFolderName, setNewFolderName] = useState("");
+
+  const [popups , setpopups] = useState({
+    share: false,
+    delete: false,
+    disable: false,
+    editName: false,
+  });
+
+  const {fileStructure , setFileStructure} = useFilestructure();
+
+
+  useEffect(() => {
+    const storedData = localStorage.getItem("FolderDescriptions");
+    if (storedData) {
+      try {
+        const parsed = JSON.parse(storedData);
+        const folderData = parsed.find((folder: { folder: string }) => folder.folder === OpenFolderName);
+        setFolderDesc(folderData ? folderData.desc : "");
+      } catch (e) {
+        console.error("Invalid localStorage data:", e);
+      }
+    }
+  }, [OpenFolderName]);
+
+  const handleSaveDesc = () => {
+    const newEntry = { folder: OpenFolderName, desc: folderDesc };
+    const existing = localStorage.getItem("FolderDescriptions");
+    let updatedDescriptions = [];
+
+    if (existing) {
+      try {
+        const parsed = JSON.parse(existing);
+        updatedDescriptions = parsed.filter((item: { folder: string }) => item.folder !== OpenFolderName);
+      } catch (e) {
+        console.error("Invalid localStorage data:", e);
+      }
+    }
+
+    updatedDescriptions.push(newEntry);
+    localStorage.setItem("FolderDescriptions", JSON.stringify(updatedDescriptions));
+    setDescSaved(true);
+    setTimeout(() => setDescSaved(false), 1500);
+  };
+
+  const handleNameChange = () => {
+    const existingData = localStorage.getItem("FolderDescriptions");
+    if (existingData) {
+      try {
+        const parsedData = JSON.parse(existingData);
+        const updatedData = parsedData.map((item: { folder: string; desc: string }) => {
+          return item.folder === OpenFolderName ? { ...item, folder: newFolderName } : item;
+        });
+
+        const updatedFileStructure = fileStructure.map((folder) => {
+          return folder.foldername === OpenFolderName
+            ? { ...folder, foldername: newFolderName }
+            : folder;
+        });
+
+        setFileStructure(updatedFileStructure);
+        localStorage.setItem("FolderDescriptions", JSON.stringify(updatedData));
+        setOpenFolderName(newFolderName);
+        setNewFolderName("");
+        setpopups({ ...popups, editName: false });
+        alert("Folder name updated successfully!");
+      } catch (e) {
+        alert("Something went wrong, please try again later");
+        console.error("Invalid localStorage data:", e);
+      }
+    }
+  };
+
   const stats = [
     { icon: <File size={16} />, label: "Total Files", value: "10" },
     { icon: <Clock size={16} />, label: "Last Edited", value: "2 days ago" },
@@ -20,123 +103,192 @@ const FileManager = () => {
     { icon: <Upload size={16} />, label: "Last Upload", value: "1 hour ago" },
     { icon: <Download size={16} />, label: "Total Downloads", value: "25" },
     { icon: <Trash size={16} />, label: "Deleted Items", value: "3" },
-    { icon: <Star size={16} />, label: "Favorite Files", value: "4" }
-];
+    { icon: <Star size={16} />, label: "Favorite Files", value: "4" },
+  ];
 
   return (
-    <div className="flex h-screen  text-white">
-      {/* Sidebar */}
-      <aside className="w-1/5 p-5 border-r border-gray-700">
-        <div className="flex items-center space-x-3 mb-6">
-          <UserCircle size={40} />
-          <UserCircle size={40} />
-        </div>
-        <h2 className="text-lg font-semibold mb-4">Folders</h2>
-        <div className="relative">
-          <button 
-            className="flex items-center gap-2 w-full py-2 px-4 mb-2 rounded-lg transition bg-gray-600 hover:bg-gray-700 cursor-pointer"
-          >
-            <Folder size={18} /> {selectedFolder}
-          </button>
-          <div className="ml-6 border-l-2 border-gray-500 pl-4 mt-2 relative">
-            <div className="absolute top-0 left-0 w-2 h-full ml-5" />
-            {/* <h3 className="text-md font-semibold mb-2">Files</h3> */}
-            <ul className="relative">
-              {files.map((file, index) => (
-                <li key={index} className="flex items-center gap-2 py-2 px-4 hover:bg-gray-700 cursor-pointer rounded-lg relative">
-                  <div className="absolute left-0 top-1/2 w-6 h-0.5 -ml-4 bg-gray-500" />
-                  <FileText size={16} /> {file}
-                </li>
-              ))}
-            </ul>
+    <div className="flex h-screen text-white">
+      <main className="flex-1 w-full p-6">
+        <h1 className="text-2xl text-gray-900 font-medium mb-4 bg-transparent text-center py-3 rounded-lg">
+          <div className="flex flex-row justify-center text-lg items-center">
+            <FileText size={19} className="text-gray-600 text-sm" />
+            <span className="text-lg ml-1">{OpenFolderName.toUpperCase()}</span>
+            <Edit2Icon onClick={() => setpopups({...popups , editName : true})} size={15} className="text-gray-600 text-sm ml-2 mb-2 cursor-pointer" />
           </div>
-        </div>
-      </aside>
+        </h1>
 
-      {/* Main Content */}
-      <main className="flex-1 p-6">
-        <div className="">
-           <FileText/>
-        <h1 className="text-2xl font-medium mb-4 bg-transparent text-center py-3 rounded-lg">
-          {selectedFolder}
-        </h1> 
+        <div className="border w-[60rem] border-gray-500 p-6 mb-4 rounded-lg">
+          <textarea
+            value={folderDesc}
+            onChange={(e) => setFolderDesc(e.target.value)}
+            placeholder="Write folder description..."
+            className="h-64 w-full resize-none p-4 text-sm rounded-md border border-gray-300 text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-gray-500"
+          />
+          <div className="flex justify-end mt-3">
+            <button onClick={handleSaveDesc} className="bg-blue-400 hover:bg-blue-500 text-white text-sm px-4 py-2 rounded-md">
+              Save Description
+            </button>
+          </div>
+          {descSaved && <p className="text-green-600 text-sm mt-2 text-right">Description saved!</p>}
         </div>
-        
-        <div className="bg-gray-900 p-6 mb-4 rounded-lg">
-          <p className="text-lg font-light">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget velit nec nunc viverra venenatis. Integer sed risus vel mauris vehicula congue non at ligula.lorem50 Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti rem quibusdam ipsam iusto harum eius, odit natus quaerat, rerum illo at consequuntur <br/><br/> asperiores perspiciatis necessitatibus perferendis totam optio! Maxime laudantium illo porro sapiente, quo, maiores molestias ipsam voluptatum, fuga exercitationem laborum nam ipsa libero reprehenderit eaque explicabo facilis repellat fugit! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Reiciendis consequatur ut, qui omnis accusamus cupiditate voluptatum architecto<br/><br/> pariatur facilis, perspiciatis ratione quae consectetur enim. Distinctio natus ex, odit blanditiis aperiam dicta aliquid repellat fugiat error corporis libero aliquam iure ipsum harum nobis. Natus possimus officia obcaecati cumque repellat, repudiandae sint eveniet nihil numquam iure eos magni odit voluptas temporibus aliquam sequi asperiores libero et impedit saepe autem. Magnam laboriosam<br/> officia aliquid blanditiis hic ea esse doloremque nulla excepturi amet, quaerat ex maiores dolore harum ad fuga, eius ipsa. Natus, quo!
-          </p>
-        </div>
+
         <div className="flex justify-center items-center space-x-4 mt-4">
-          <button className="bg-green-600 hover:bg-green-700 text-white hover:cursor-pointer px-4 py-2 rounded-lg flex items-center" onClick={() => setShowSharePopup(true)}>
+          <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center" onClick={() => setpopups({...popups , share : true})}>
             <Share size={16} className="mr-2" /> Share
           </button>
-          <button className="bg-red-600 hover:bg-red-700 text-white hover:cursor-pointer px-4 py-2 rounded-lg flex items-center" onClick={() => setShowDeletePopup(true)}>
+          <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg flex items-center" onClick={() => setpopups({...popups , delete : true})}> 
             <Trash2 size={16} className="mr-2" /> Delete
           </button>
-          <button className="bg-gray-600 hover:bg-gray-700 text-white hover:cursor-pointer px-4 py-2 rounded-lg flex items-center" onClick={() => setShowDisablePopup(true)}>
+          <button className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg flex items-center" onClick={() => setpopups({...popups , disable : true})}>
             <Ban size={16} className="mr-2" /> Disable
           </button>
         </div>
       </main>
 
-      {/* Stats Panel */}
-      <aside className="w-1/5 p-5 border-l border-gray-700 rounded-lg">
-        <h2 className="text-lg font-mono mb-4">Folder Stats</h2>
+      <aside className="w-[17rem] p-5 shadow-md rounded-lg bg-white">
+        <h2 className="text-md font-serif text-gray-800 mb-4 mx-auto">FOLDER STATS</h2>
         <ul>
           {stats.map((stat, index) => (
-            <li key={index} className="flex items-center font-mono gap-3 mb-3 p-3 border-gray-500" style={{borderBottomWidth :"0.5px"}}>
-              {stat.icon}
-              <span className="text-gray-300">{stat.label}:</span>
-              <span className="text-white font-semibold">{stat.value}</span>
+            <li key={index} className="pb-3 mb-5 border-b border-gray-300">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 text-gray-600">
+                  <span>{stat.icon}</span>
+                  <span className="text-sm">{stat.label}</span>
+                </div>
+                <span className="font-mono text-[0.65rem] font-medium text-gray-800">{stat.value}</span>
+              </div>
             </li>
           ))}
         </ul>
       </aside>
-      {showSharePopup && (
-        <div className="fixed inset-0 flex items-center justify-center bg-transparent  bg-opacity-50">
-          <div className="bg-transparent border shadow w-4/12 p-6 backdrop-blur-lg  rounded-lg text-center">
-            <h2 className="text-xl font-semibold mb-4">Share File</h2>
-            <input className="w-full p-2 mb-2 bg-gray-200 text-gray-900 rounded" placeholder="Email" type="email" />
-            <input className="w-full p-2 mb-2 bg-gray-200 text-gray-900 rounded" placeholder="Access Type" type="text" />
-            <div className="mt-2 mb-2 flex flex-row items-center">
-                <input className="bg-gray-200 p-2 w-9/12 text-gray-900 placeholder:text-gray-900 rounded" readOnly placeholder="https://hi.com/hesvevbdbhvjk" type="text"/>
-              <button className="bg-gray-200 px-4 py-2 text-gray-900 rounded-lg ml-1">Copy Link</button>   
-            </div>
-              
-            <textarea className="w-full p-2 mb-2 bg-gray-200 text-gray-900 rounded" placeholder="Message"></textarea>
-            <div className="flex justify-between mt-4">
-              <button className="bg-green-600 px-4 py-2 rounded-lg hover:cursor-pointer">Share</button>
-              <button className="bg-red-600 px-4 py-2 rounded-lg hover:cursor-pointer"  onClick={() => setShowSharePopup(false)}>Cancel</button>
-            </div>
-          </div>
-        </div>
-      )}
-      {showDeletePopup && (
-        <div className="fixed inset-0 flex items-center justify-center shadow-[0px_0px_10px_10px_white]  bg-transparent backdrop-blur-sm bg-opacity-50">
-          <div className="bg-gray-800 p-6 rounded-lg text-center">
-            <h2 className="text-xl font-semibold mb-4">Delete Folder</h2>
-            <p>Are you sure you want to delete this folder?</p>
-            <input className="w-full p-2 my-2 bg-gray-200 text-gray-900 rounded" placeholder="Enter folder name" type="text" />
-            <div className="flex justify-between mt-4">
-              <button className="bg-red-600 px-4 py-2 rounded-lg hover:cursor-pointer">Delete</button>
-              <button className="bg-gray-600 px-4 py-2 rounded-lg hover:cursor-pointer" onClick={() => setShowDeletePopup(false)}>Cancel</button>
-            </div>
-          </div>
-        </div>
-      )}
 
-      {showDisablePopup && (
-        <div className="fixed inset-0 flex items-center justify-center  bg-transparent backdrop-blur-sm bg-opacity-50">
-          <div className="bg-gray-800 p-6 rounded-lg text-center">
-            <h2 className="text-xl font-semibold mb-4">Disable File</h2>
-            <p>This file will be disabled. Are you sure?</p>
-            <button className="bg-gray-600 px-4 py-2 rounded-lg mt-4 hover:cursor-pointer" onClick={() => setShowDisablePopup(false)}>Confirm</button>
-          </div>
-        </div>
+      {popups.share && <SharePopup setpopups={setpopups} />}
+      {popups.delete && <DeletePopup setpopups={setpopups} />}
+      {popups.disable && <DisablePopup setpopups={setpopups} />}
+      {popups.editName && (
+        <FolderNameEditPopup
+          newFolderName={newFolderName}
+          setNewFolderName={setNewFolderName}
+          handleNameChange={handleNameChange}
+          setpopups={setpopups}
+        />
       )}
     </div>
   );
-}
+};
+
+export const SharePopup = ({ setpopups }: {setpopups: Dispatch<SetStateAction<{share: boolean;delete: boolean;disable: boolean;editName: boolean;}>> }) => (
+  <div className="fixed inset-0 flex items-center justify-center bg-black/30 w-full"> 
+  <div className="bg-white p-5 w-md rounded-lg">
+
+  
+    <h2 className="text-xl font-semibold text-center text-gray-900">Share File</h2>
+    <div className="space-y-4 py-4">
+      <div className="flex items-center gap-2 rounded-md border bg-gray-50 px-3">
+        <Mail className="h-4 w-4 text-gray-500" />
+        <input
+          className="flex-1 bg-transparent px-1 placeholder:text-gray-500 py-2 outline-none text-sm"
+          placeholder="Email"
+          type="email"
+        />
+      </div>
+
+      <select className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-700">
+        <option value="">Access Type</option>
+        <option  value="view">View Only</option>
+        <option  value="edit">Can Edit</option>
+        <option  value="admin">Admin Access</option>
+      </select>
+
+      <div className="flex items-center gap-2 rounded-md border bg-gray-50 px-3">
+        <LinkIcon className="h-4 w-4 text-gray-500" />
+        <input
+          className="flex-1 bg-transparent text-sm px-1 py-2 outline-none text-gray-600"
+          readOnly
+          value="https://hi.com/hesvevbdbhvjk"
+        />
+        <button
+          // onClick={handleCopyLink}
+          className="text-sm flex items-center gap-1 px-2 py-1 rounded hover:bg-gray-100 text-gray-700"
+        >
+          {false ? <><Check className="h-4 w-4" />Copied</> : <><Copy className="h-4 w-4" />Copy</>}
+        </button>
+      </div>
+
+      <textarea
+        placeholder="Add a message (optional)"
+        className="w-full min-h-[96px] resize-none text-gray-600 border border-gray-300 rounded-md px-3 py-2 text-sm"
+      />
+    </div>
+    <div className="flex justify-between pt-2">
+      <button onClick={() => setpopups((prev) => ({...prev , share : false})) } className="px-4 py-2 bg-emerald-600 text-white rounded-md hover:bg-emerald-700">Share</button>
+      <button onClick={() => setpopups((prev) => ({...prev , share : false})) } className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50">Cancel</button>
+    </div>
+    </div>
+    </div>
+  
+);
+
+export const DeletePopup =({ setpopups }: {setpopups: Dispatch<SetStateAction<{share: boolean;delete: boolean;disable: boolean;editName: boolean;}>> }) => (
+  <div className="fixed inset-0 flex items-center justify-center bg-black/30 w-full">
+    <div className="bg-white p-5 w-md rounded-lg">
+      <h2 className="text-xl font-semibold text-center text-gray-900">Delete Folder</h2>
+      <p className="text-sm text-center text-gray-600 mt-2 mb-4">This action cannot be undone.</p>
+      <input placeholder="Type folder name to confirm" className="w-full border px-3 py-2 rounded-md text-sm text-gray-800" />
+      <div className="flex justify-between mt-6">
+        <button onClick={() => setpopups((prev) => ({...prev , delete : false})) } className="bg-rose-600 text-white px-4 py-2 rounded-md">Delete</button>
+        <button onClick={() => setpopups((prev) => ({...prev , delete : false})) } className="border px-4 py-2 rounded-md text-gray-700">Cancel</button>
+      </div>
+    </div>
+  </div>
+);
+
+export const DisablePopup = ({ setpopups }: {setpopups: Dispatch<SetStateAction<{share: boolean;delete: boolean;disable: boolean;editName: boolean;}>> }) => (
+  <div className="fixed inset-0 flex items-center justify-center bg-black/30 w-full"> 
+  <div className="bg-white p-5 w-md rounded-lg">
+    <h2 className="text-xl font-semibold text-center text-gray-900">Disable File</h2>
+    <p className="text-center text-sm text-gray-600 mt-1 mb-6">
+      This file will be disabled but not deleted. You can enable it again later.
+    </p>
+    <div className="flex justify-center">
+      <div className="rounded-full bg-amber-100 p-4 mb-6">
+        <Shield className="h-10 w-10 text-amber-600" />
+      </div>
+    </div>
+    <div className="flex justify-center">
+      <button onClick={() => setpopups((prev) => ({...prev , disable : false})) } className="px-4 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700">Confirm Disable</button>
+    </div>
+  </div>
+  </div>
+);
+
+export const FolderNameEditPopup = ({
+  newFolderName,
+  setNewFolderName,
+  handleNameChange,
+  setpopups,
+}: {
+  newFolderName: string;
+  setNewFolderName: Dispatch<SetStateAction<string>>;
+  handleNameChange: () => void;
+  setpopups: Dispatch<SetStateAction<{share: boolean;delete: boolean;disable: boolean;editName: boolean;}>>;
+}) => (
+  <div className="fixed inset-0 flex items-center justify-center bg-black/30 w-full">
+    <div className="bg-white p-5 w-md rounded-lg text-center">
+      <h2 className="text-xl font-semibold text-gray-900 mb-3">Edit Folder Name</h2>
+      <input
+        className="w-full px-3 py-2 border rounded-md text-sm text-gray-800"
+        value={newFolderName}
+        onChange={(e) => setNewFolderName(e.target.value)}
+        placeholder="New folder name"
+      />
+      <div className="flex justify-between mt-5">
+        <button onClick={handleNameChange} className="bg-blue-600 text-white px-4 py-2 rounded-md">Update</button>
+        <button onClick={() => setpopups((prev) => ({...prev , editName : false})) } className="border px-4 py-2 rounded-md text-gray-700">Cancel</button>
+      </div>
+    </div>
+  </div>
+);
+
 
 export default FileManager;

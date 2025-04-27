@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
 import './globals.css';
 import Navbar from '@/components/ui/Navbar';
+import { FilestructureProvider } from '@/components/pages/FilestructureContext/Filestruture';
 
 const geistSans = Geist({
     variable: '--font-geist-sans',
@@ -30,7 +31,9 @@ const RootLayout = ({
                 className={`${geistSans.variable} ${geistMono.variable} antialiased flex-col h-screen w-screen overflow-hidden bg-white dark:bg-black text-black dark:text-white`}
             >
                 <Navbar />
+                <FilestructureProvider>
                 {children}
+                </FilestructureProvider>
             </body>
         </html>
     );

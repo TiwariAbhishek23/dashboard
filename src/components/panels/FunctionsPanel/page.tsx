@@ -141,7 +141,7 @@ function RightSidebar() {
             {isCollapsed && (
                 <button
                     onClick={toggleCollapse}
-                    className="p-2 mt-20 bg-amber-300 h-3/5 rounded-l-lg backdrop-blur-md shadow-lg hover:bg-black/10 transition-all duration-300 ease-in-out"
+                    className="p-2 mt-20 bg-gray-200 h-3/5 rounded-l-lg backdrop-blur-md shadow-lg hover:bg-black/10 transition-all duration-300 ease-in-out"
                 >
                     <ChevronLeft size={24} className="text-black" />
                 </button>

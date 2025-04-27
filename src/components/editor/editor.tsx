@@ -10,6 +10,7 @@ import { PencilLine, PencilOff, Volleyball } from 'lucide-react'
 
 import { useRouter } from 'next/router';
 
+
 import {
   BaseKit,
   History,
@@ -96,7 +97,7 @@ const extensions = [
   SlashCommand,
 ]
 
-const DEFAULT = ``
+const DEFAULT = `I am abhishek`
 
 const debounce = (func: any, wait: number) => {
   let timeout: NodeJS.Timeout
@@ -107,14 +108,15 @@ const debounce = (func: any, wait: number) => {
   }
 }
 
-const Editor = () => {
-  const [content, setContent] = useState(DEFAULT)
+const Editor = ({contentHTML}) => {
+  const [content, setContent] = useState(contentHTML)
   const [theme, setTheme] = useState('light')
   const [disable, setDisable] = useState(false)
 
+
   const onValueChange = useCallback(
     debounce((value: any) => {
-      setContent(value)
+      setContent(value);
     }, 300),
     [],
   )
@@ -126,7 +128,7 @@ const Editor = () => {
   //   router.push('/playground')
   // }
 
-
+  
   return (
     <div
       className="flex flex-col flex-grow h-screen overflow-hidden border-2 border-gray-200 rounded-lg shadow-lg"
@@ -202,7 +204,7 @@ const Editor = () => {
         dark={theme === 'dark'}
         disabled={disable}
       />
-      {/* {typeof content === 'string' && (
+      {typeof content === 'string' && (
         <textarea
           style={{
             marginTop: 20,
@@ -211,7 +213,7 @@ const Editor = () => {
           readOnly
           value={content}
         />
-      )} */}
+      )}
     </div>
 
   )

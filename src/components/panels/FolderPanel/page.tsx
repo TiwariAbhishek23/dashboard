@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction, useContext } from "react";
+import { useFilestructure } from "@/components/pages/FilestructureContext/Filestruture";
 import {
     FilePlus2Icon,
     FileText,
@@ -13,37 +14,43 @@ import {
     ChevronLeft,
     PanelRightClose,
     Trash2,
+    InfoIcon,
+    Link2Icon,
 } from "lucide-react";
+import Link from "next/link";
+
+type SnippetData = {
+    label : string;
+    shortcut: string;
+    snippetName: string;   
+    contentHTML: string;
+};
 
 type Folder = {
     foldername: string;
-    snippets: string[];
+    snippets: SnippetData[]; 
 };
 
-export default function FolderPanel() {
-    const [fileStructure, setFileStructure] = useState<Folder[]>(() => {
-        const saved = localStorage.getItem("fileStructure");
-        return saved ? JSON.parse(saved) : [];
-    });
+export default function FolderPanel({handleFOlderInformationOpen , setActiveFile , activeFile }: { handleFOlderInformationOpen: (folder: string) => void ,setActiveFile: Dispatch<SetStateAction<string | null>> , activeFile: string | null }) {
+
+    // Destructuring the context to get the file structure and functions
+    const {fileStructure , setFileStructure , addFolder , deleteFolder , addSnippet , deleteSnippet , sortFolders} = useFilestructure()
 
     const [openFolders, setOpenFolders] = useState<string[]>([]);
-    const [activeFile, setActiveFile] = useState<string | null>(null);
+    // const [activeFile, setActiveFile] = useState<string | null>(null);
     const [isSearching, setIsSearching] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [fileForm, setFileForm] = useState(false);
     const [folderForm, setFolderForm] = useState(false);
     const [sortOpen, setSortOpen] = useState(false);
     const [isCollapsed, setIsCollapsed] = useState(false);
-
-    useEffect(() => {
-        localStorage.setItem("fileStructure", JSON.stringify(fileStructure));
-    }, [fileStructure]);
-
+    // console.log("File Structure: ", fileStructure);
+    // console.log("Debug: ", openFolders.includes("Components"));
     const toggleFolder = (folderName: string) => {
         setOpenFolders((prev) =>
             prev.includes(folderName)
-                ? prev.filter((name) => name !== folderName)
-                : [...prev, folderName]
+                ? prev.filter((name) => name !== folderName) // Remove folder if already open
+                : [...prev, folderName] // Add folder if not open
         );
     };
 
@@ -55,93 +62,13 @@ export default function FolderPanel() {
     const toggleSort = () => setSortOpen((prev) => !prev);
     const toggleCollapse = () => setIsCollapsed((prev) => !prev);
 
-    const addFolder = (folderName: string) => {
-        if (!folderName.trim()) return;
-        if (fileStructure.some((f) => f.foldername === folderName)) {
-            alert("Folder already exists!");
-            return;
-        }
-        setFileStructure((prev) => [
-            ...prev,
-            { foldername: folderName, snippets: ["dummy"] },
-        ]);
-    };
-
-    const addSnippet = (folderName: string, snippetName: string) => {
-        if (!snippetName.trim()) return;
-
-        let updatedStructure = [...fileStructure];
-        if (updatedStructure.length === 0) {
-            updatedStructure.push({ foldername: "default", snippets: [] });
-            folderName = "default";
-        }
-
-        const folderIndex = updatedStructure.findIndex(
-            (f) => f.foldername === folderName
-        );
-        if (folderIndex === -1) return;
-
-        const folder = updatedStructure[folderIndex];
-        if (folder.snippets.includes(snippetName)) {
-            alert("Snippet with this name already exists!");
-            return;
-        }
-
-        updatedStructure[folderIndex] = {
-            ...folder,
-            snippets: [...folder.snippets, snippetName],
-        };
-        setFileStructure(updatedStructure);
-    };
-
-    const deleteFolder = (folderName: string) => {
-        const confirmDelete = window.confirm(
-            `Are you sure you want to delete the folder "${folderName}" and all its snippets?`
-        );
-        if (!confirmDelete) return;
-
-        setFileStructure((prev) => prev.filter((f) => f.foldername !== folderName));
-        setOpenFolders((prev) => prev.filter((name) => name !== folderName));
-    };
-
-    const deleteSnippet = (folderName: string, snippetName: string) => {
-        const confirmDelete = window.confirm(
-            `Are you sure you want to delete the snippet "${snippetName}"?`
-        );
-        if (!confirmDelete) return;
-
-        setFileStructure((prev) =>
-            prev.map((folder) =>
-                folder.foldername === folderName
-                    ? {
-                        ...folder,
-                        snippets: folder.snippets.filter((s) => s !== snippetName),
-                    }
-                    : folder
-            )
-        );
-        if (activeFile === snippetName) setActiveFile(null);
-    };
-
-
-    const sortFolders = (criteria: "name" | "size") => {
-        setFileStructure((prev) => {
-            const sorted = [...prev];
-            if (criteria === "name") {
-                sorted.sort((a, b) => a.foldername.localeCompare(b.foldername));
-            } else if (criteria === "size") {
-                sorted.sort((a, b) => b.snippets.length - a.snippets.length);
-            }
-            return sorted;
-        });
-        setSortOpen(false);
-    };
+  
 
     const filteredStructure = fileStructure
         .map((folder) => ({
             ...folder,
             snippets: folder.snippets.filter((snippet) =>
-                snippet.toLowerCase().includes(searchQuery.toLowerCase())
+                snippet.snippetName?.toLowerCase().includes(searchQuery.toLowerCase()) || ""
             ),
         }))
         .filter(
@@ -207,7 +134,7 @@ export default function FolderPanel() {
                     <div className="flex-1 overflow-y-auto space-y-2">
                         {filteredStructure.map((folder, index) => (
                             <div key={index}>
-                                <div className="flex items-center justify-between px-2 py-1 rounded hover:bg-gray-100 group">
+                                <div className="flex items-center  justify-between px-2 py-1 rounded hover:bg-gray-100 group">
                                     <div
                                         className="flex items-center gap-2 cursor-pointer flex-1"
                                         onClick={() => toggleFolder(folder.foldername)}
@@ -215,31 +142,47 @@ export default function FolderPanel() {
                                         {openFolders.includes(folder.foldername) ? <FolderOpen size={18} /> : <FolderClosed size={18} />}
                                         <span className="font-medium text-sm">{folder.foldername}</span>
                                     </div>
+                                    
+                                    <InfoIcon
+                                        size={16}
+                                        className="text-gray-400 opacity-0 group-hover:opacity-100 hover:text-blue-500 cursor-pointer"
+                                        onClick={() => handleFOlderInformationOpen(folder.foldername)}
+                                    />
                                     <Trash2
                                         size={16}
                                         className="text-gray-400 opacity-0 group-hover:opacity-100 hover:text-red-500 cursor-pointer"
                                         onClick={() => deleteFolder(folder.foldername)}
                                     />
+
                                 </div>
+
                                 {openFolders.includes(folder.foldername) && (
                                     <div className="ml-5 pl-2 border-l border-gray-200 space-y-1">
                                         {folder.snippets.map((snippet, idx) => (
                                             <div
                                                 key={idx}
-                                                className={`flex items-center justify-between px-2 py-1 rounded group text-sm ${activeFile === snippet ? "bg-gray-100 font-semibold" : "hover:bg-gray-50"
+                                                className={`flex items-center justify-between px-2 py-1 rounded group text-sm ${activeFile === snippet.snippetName ? "bg-gray-100 font-semibold" : "hover:bg-gray-50"
                                                     }`}
                                             >
                                                 <div
                                                     className="flex items-center gap-2 cursor-pointer flex-1"
-                                                    onClick={() => setActiveFile(snippet)}
+                                                    onClick={() => setActiveFile(snippet.snippetName)}
                                                 >
                                                     <FileText size={16} />
-                                                    <span>{snippet}</span>
+                                                    <span>{snippet.snippetName}</span>
                                                 </div>
+                                                <Link href={`/editor/${folder.foldername}?snippetName=${snippet.snippetName}`} className="flex items-center gap-2">
+                                                    <Link2Icon
+                                                        size={16}
+                                                        className="text-gray-400 opacity-0 group-hover:opacity-100 hover:text-blue-500 cursor-pointer"
+                                                        
+                                                    />
+                                                </Link>
+                                                
                                                 <Trash2
                                                     size={16}
                                                     className="text-gray-400 opacity-0 group-hover:opacity-100 hover:text-red-500 cursor-pointer"
-                                                    onClick={() => deleteSnippet(folder.foldername, snippet)}
+                                                    onClick={() => deleteSnippet(folder.foldername, snippet.snippetName)}
                                                 />
                                             </div>
                                         ))}
@@ -254,14 +197,12 @@ export default function FolderPanel() {
             {/* Forms */}
             {fileForm && (
                 <FileCreateForm
-                    addSnippet={addSnippet}
                     closeForm={() => setFileForm(false)}
                     folders={fileStructure}
                 />
             )}
             {folderForm && (
                 <FolderCreateForm
-                    addFolder={addFolder}
                     closeForm={() => setFolderForm(false)}
                 />
             )}
@@ -270,17 +211,20 @@ export default function FolderPanel() {
 }
 
 function FolderCreateForm({
-    addFolder,
     closeForm,
 }: {
-    addFolder: (name: string) => void;
     closeForm: () => void;
 }) {
     const [folderName, setFolderName] = useState("");
-
+    const { addFolder } = useFilestructure();
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        if(folderName.trim() == ""){
+            alert('Please enter the folder name')
+            return
+        }
         addFolder(folderName);
+        setFolderName("");
         closeForm();
     };
 
@@ -311,20 +255,24 @@ function FolderCreateForm({
 }
 
 function FileCreateForm({
-    addSnippet,
     closeForm,
     folders,
 }: {
-    addSnippet: (folder: string, name: string) => void;
     closeForm: () => void;
     folders: Folder[];
 }) {
     const [fileName, setFileName] = useState("");
     const [folderName, setFolderName] = useState(folders[0]?.foldername || "");
+    const { addSnippet } = useFilestructure();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        if (fileName.trim() === "") {
+            alert("Please enter a snippet name");
+            return;
+        }
         addSnippet(folderName, fileName);
+        setFileName("");
         closeForm();
     };
 
